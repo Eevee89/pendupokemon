@@ -13,6 +13,14 @@ p {
     color: #111;
 }
 
+#pokemon {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-sizing: border-box;
+    transform: translateX(-50%);
+}
+
 body {
     height: 100vh;
     width: 100vw;
@@ -65,10 +73,11 @@ body {
 #tiles {
     display: flex;
     flex-direction: column;
-    justify-content: start;
+    justify-content: center;
     align-items: center;
     width: 100%;
     height: inherit;
+    background-color: #fff;
 }
 
 .tileRow {
