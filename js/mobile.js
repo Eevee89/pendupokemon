@@ -29,6 +29,7 @@ $(document).ready(function () {
     $(".tile").click((event) => {
         var id = event.target.id;
         let code = ord(id);
+        $("#title").text(""+code);
         if (code >= 65 && code <= 90 || code === 95) {
             for(i=0; i<poke.length; i++) {
                 if (poke[i] == String.fromCharCode(code)) {

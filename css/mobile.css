@@ -23,6 +23,10 @@ body {
     align-items: center;
 }
 
+#pokemon_logo {
+    width: 50%;
+}
+
 #row {
     display: flex;
     flex-direction: row;
@@ -55,11 +59,13 @@ body {
     -webkit-text-stroke: 2px #2F509D;
     color: #FFCB05;
     font-weight: 500;
+    font-size: 4rem;
 }
 
 #tiles {
     display: flex;
     flex-direction: column;
+    justify-content: start;
     align-items: center;
     width: 100%;
     height: inherit;
