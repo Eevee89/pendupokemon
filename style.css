@@ -12,7 +12,28 @@ body {
     display: flex;
 }
 
-img {
+#pokemon {
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    height: 20%;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    transform: translateX(-50%);
+}
+
+#pokemon_logo {
+    height: 50%;
+}
+
+#title {
+    -webkit-text-stroke: 2px #2F509D;
+    color: #FFCB05;
+    font-weight: 500;
+}
+
+#pikachu {
     position: absolute;
     bottom: 0%;
     height: 20%;
