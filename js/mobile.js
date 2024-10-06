@@ -63,6 +63,7 @@ $(document).ready(function () {
                 errors = 0;
                 found = 0;
             }
+            letters = $("#letters").text().split(":")[1];
             for(i=65; i<91; i++) {
                 if (letters.search(String.fromCharCode(i)) === -1) {
                     $("#"+String.fromCharCode(i)).removeClass("used");
