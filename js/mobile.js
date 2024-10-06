@@ -27,23 +27,22 @@ $(document).ready(function () {
     });
 
     $(".tile").click((event) => {
+        event.target.addClass("used");
         var id = event.target.id;
         let code = id.charCodeAt(0);
-        if (code >= 65 && code <= 90 || code === 95) {
-            for(i=0; i<poke.length; i++) {
-                if (poke[i] == String.fromCharCode(code)) {
-                    $("#row").children()[i].innerHTML = "<p>"+ poke[i] +"</p>";
-                    found += 1;
-                }
+        for(i=0; i<poke.length; i++) {
+            if (poke[i] == String.fromCharCode(code)) {
+                $("#row").children()[i].innerHTML = "<p>"+ poke[i] +"</p>";
+                found += 1;
             }
-            let letters = $("#letters").text().split(":")[1];
-            if (letters.search(String.fromCharCode(code)) === -1) {
-                if (poke.search(String.fromCharCode(code)) === -1) {
-                    errors += 1;
-                    $("#errors").text("Erreurs : "+errors+"/10");
-                }
-                $("#letters").text($("#letters").text()+" "+String.fromCharCode(code));
+        }
+        let letters = $("#letters").text().split(":")[1];
+        if (letters.search(String.fromCharCode(code)) === -1) {
+            if (poke.search(String.fromCharCode(code)) === -1) {
+                errors += 1;
+                $("#errors").text("Erreurs : "+errors+"/10");
             }
+            $("#letters").text($("#letters").text()+" "+String.fromCharCode(code));
         }
         if (found === poke.length) {
             $(".character").css("background-color", "#0F0");
@@ -61,4 +60,9 @@ $(document).ready(function () {
             found = 0;
         }
     });
+
+    for(i=65; i<91; i++) {
+        $("#"+String.fromCharCode(i)).removeClass("used");
+    }
+    $("#_").removeClass("used");
 });

@@ -17,14 +17,14 @@
         <?php for($i=0; $i<6; $i++): ?>
             <div class="tileRow">
                 <?php for($j=0; $j<4; $j++): ?>
-                    <div id="<?=chr(65+4*$i+$j)?>" class="tile"><p><?=chr(65+4*$i+$j)?></p></div>
+                    <div id="<?=chr(65+4*$i+$j)?>" class="tile used"><p><?=chr(65+4*$i+$j)?></p></div>
                 <?php endfor; ?>
             </div>
         <?php endfor; ?>
         <div class="tileRow">
-            <div id="Y" class="tile"><p>Y</p></div>
-            <div id="Z" class="tile"><p>Z</p></div>
-            <div id="_" class="tile"><p>_</p></div>
+            <div id="Y" class="tile used"><p>Y</p></div>
+            <div id="Z" class="tile used"><p>Z</p></div>
+            <div id="_" class="tile used"><p>_</p></div>
         </div>
     </div>
     <img id="pikachu" src="pikachu.png">

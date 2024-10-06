@@ -117,3 +117,7 @@ body {
 .failed {
     background-color: #F00;
 }
+
+.used {
+    opacity: 0.2;
+}
