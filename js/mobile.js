@@ -64,11 +64,11 @@ $(document).ready(function () {
                 found = 0;
             }
             for(i=65; i<91; i++) {
-                if (!letters.search(String.fromCharCode(i)) === -1) {
+                if (letters.search(String.fromCharCode(i)) === -1) {
                     $("#"+String.fromCharCode(i)).removeClass("used");
                 }
             }
-            if (!letters.search("_") === -1) {
+            if (letters.search("_") === -1) {
                 $("#_").removeClass("used");
             }
         }
