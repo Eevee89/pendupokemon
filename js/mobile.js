@@ -27,37 +27,39 @@ $(document).ready(function () {
     });
 
     $(".tile").click((event) => {
-        event.target.classList.add("used");
-        var id = event.target.id;
-        let code = id.charCodeAt(0);
-        for(i=0; i<poke.length; i++) {
-            if (poke[i] == String.fromCharCode(code)) {
-                $("#row").children()[i].innerHTML = "<p>"+ poke[i] +"</p>";
-                found += 1;
-            }
-        }
-        let letters = $("#letters").text().split(":")[1];
-        if (letters.search(String.fromCharCode(code)) === -1) {
-            if (poke.search(String.fromCharCode(code)) === -1) {
-                errors += 1;
-                $("#errors").text("Erreurs : "+errors+"/10");
-            }
-            $("#letters").text($("#letters").text()+" "+String.fromCharCode(code));
-        }
-        if (found === poke.length) {
-            $(".character").css("background-color", "#0F0");
-            errors = 0;
-            found = 0;
-            score += 1;
-            $("#score").text("Score : "+score);
-        }
-        if (errors === 10) {
-            $(".character").css("background-color", "#F00");
+        if (!event.target.classList.contains("used")) {
+            event.target.classList.add("used");
+            var id = event.target.id;
+            let code = id.charCodeAt(0);
             for(i=0; i<poke.length; i++) {
-                $("#row").children()[i].innerHTML = "<p>"+ poke[i] +"</p>";
+                if (poke[i] == String.fromCharCode(code)) {
+                    $("#row").children()[i].innerHTML = "<p>"+ poke[i] +"</p>";
+                    found += 1;
+                }
             }
-            errors = 0;
-            found = 0;
+            let letters = $("#letters").text().split(":")[1];
+            if (letters.search(String.fromCharCode(code)) === -1) {
+                if (poke.search(String.fromCharCode(code)) === -1) {
+                    errors += 1;
+                    $("#errors").text("Erreurs : "+errors+"/10");
+                }
+                $("#letters").text($("#letters").text()+" "+String.fromCharCode(code));
+            }
+            if (found === poke.length) {
+                $(".character").css("background-color", "#0F0");
+                errors = 0;
+                found = 0;
+                score += 1;
+                $("#score").text("Score : "+score);
+            }
+            if (errors === 10) {
+                $(".character").css("background-color", "#F00");
+                for(i=0; i<poke.length; i++) {
+                    $("#row").children()[i].innerHTML = "<p>"+ poke[i] +"</p>";
+                }
+                errors = 0;
+                found = 0;
+            }
         }
     });
 
