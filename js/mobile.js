@@ -24,6 +24,10 @@ $(document).ready(function () {
         $(".character").css("width", 90/poke.length + "%");
         $("#letters").text("Lettres :");
         $("#errors").text("Erreurs : 0/10");
+        for(i=65; i<91; i++) {
+            $("#"+String.fromCharCode(i)).removeClass("used");
+        }
+        $("#Space").removeClass("used");
     });
 
     $(".tile").click((event) => {
@@ -31,7 +35,7 @@ $(document).ready(function () {
             for(i=65; i<91; i++) {
                 $("#"+String.fromCharCode(i)).addClass("used");
             }
-            $("#_").addClass("used");
+            $("#Space").addClass("used");
             var id = event.target.id;
             let code = id.charCodeAt(0);
             for(i=0; i<poke.length; i++) {
@@ -70,7 +74,7 @@ $(document).ready(function () {
                 }
             }
             if (letters.search("_") === -1) {
-                $("#_").removeClass("used");
+                $("#Space").removeClass("used");
             }
         }
     });
@@ -78,5 +82,5 @@ $(document).ready(function () {
     for(i=65; i<91; i++) {
         $("#"+String.fromCharCode(i)).removeClass("used");
     }
-    $("#_").removeClass("used");
+    $("#Space").removeClass("used");
 });

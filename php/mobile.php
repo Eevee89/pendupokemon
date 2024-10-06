@@ -24,7 +24,7 @@
         <div class="tileRow">
             <div id="Y" class="tile used"><p>Y</p></div>
             <div id="Z" class="tile used"><p>Z</p></div>
-            <div id="_" class="tile used"><p>_</p></div>
+            <div id="Space" class="tile used"><p>_</p></div>
         </div>
     </div>
     <img id="pikachu" src="pikachu.png">
