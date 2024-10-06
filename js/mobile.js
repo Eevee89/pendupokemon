@@ -28,7 +28,10 @@ $(document).ready(function () {
 
     $(".tile").click((event) => {
         if (!event.target.classList.contains("used")) {
-            event.target.classList.add("used");
+            for(i=65; i<91; i++) {
+                $("#"+String.fromCharCode(i)).addClass("used");
+            }
+            $("#_").addClass("used");
             var id = event.target.id;
             let code = id.charCodeAt(0);
             for(i=0; i<poke.length; i++) {
@@ -59,6 +62,14 @@ $(document).ready(function () {
                 }
                 errors = 0;
                 found = 0;
+            }
+            for(i=65; i<91; i++) {
+                if (!letters.search(String.fromCharCode(i)) === -1) {
+                    $("#"+String.fromCharCode(i)).removeClass("used");
+                }
+            }
+            if (!letters.search("_") === -1) {
+                $("#_").removeClass("used");
             }
         }
     });
