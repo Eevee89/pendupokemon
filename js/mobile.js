@@ -27,7 +27,7 @@ $(document).ready(function () {
     });
 
     $(".tile").click((event) => {
-        event.target.addClass("used");
+        event.target.classList.add("used");
         var id = event.target.id;
         let code = id.charCodeAt(0);
         for(i=0; i<poke.length; i++) {
