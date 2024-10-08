@@ -11,8 +11,8 @@ let score = 0;
 
 $(document).ready(function () {
     poke = getRandomPokemon();
-    pokedex = poke[0];
-    poke = poke[1].toUpperCase();
+    pokedex = poke["Pokedex"];
+    poke = poke["Nom"].toUpperCase();
     for(i=0; i<poke.length; i++) {
         $("#row").append($("<div'></div>").addClass("character").append("<p></p>").text("_"));
     } 
@@ -21,8 +21,8 @@ $(document).ready(function () {
     $("#replay").click(() => {
         $("#row").html("");
         poke = getRandomPokemon();
-        pokedex = poke[0];
-        poke = poke[1].toUpperCase();
+        pokedex = poke["Pokedex"];
+        poke = poke["Nom"].toUpperCase();
         for(i=0; i<poke.length; i++) {
             $("#row").append($("<div'></div>").addClass("character").append("<p></p>").text("_"));
         } 
