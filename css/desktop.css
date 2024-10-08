@@ -33,6 +33,14 @@ body {
     font-weight: 500;
 }
 
+#answer {
+    height: 15%;
+    position: absolute;
+    top: 65%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
 #pikachu {
     position: absolute;
     bottom: 0%;

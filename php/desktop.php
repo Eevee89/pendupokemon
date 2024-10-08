@@ -4,6 +4,7 @@
         <img id="pokemon_logo" src="pokemon_logo.png">
     </div>
     <div id="row"></div>
+    <img id="answer" src="https://www.pokebip.com/pokedex-images/300/1.png?v=ev-blueberry">
     <div id="bottom">
         <p id="replay">Rejouer</p>
         <p id="score">Score : 0</p>

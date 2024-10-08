@@ -4,12 +4,15 @@ function getRandomPokemon() {
 }
 
 let poke = "";
+let pokedex = -1;
 let found = 0;
 let errors = 0;
 let score = 0;
 
 $(document).ready(function () {
-    poke = getRandomPokemon().toUpperCase();
+    poke = getRandomPokemon();
+    pokedex = poke[0];
+    poke = poke[1].toUpperCase();
     for(i=0; i<poke.length; i++) {
         $("#row").append($("<div'></div>").addClass("character").append("<p></p>").text("_"));
     } 
@@ -17,7 +20,9 @@ $(document).ready(function () {
 
     $("#replay").click(() => {
         $("#row").html("");
-        poke = getRandomPokemon().toUpperCase();
+        poke = getRandomPokemon();
+        pokedex = poke[0];
+        poke = poke[1].toUpperCase();
         for(i=0; i<poke.length; i++) {
             $("#row").append($("<div'></div>").addClass("character").append("<p></p>").text("_"));
         } 

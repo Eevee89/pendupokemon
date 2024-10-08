@@ -4,12 +4,16 @@ function getRandomPokemon() {
 }
 
 let poke = "";
+let pokedex = -1;
 let found = 0;
 let errors = 0;
 let score = 0;
 
 $(document).ready(function () {
-    poke = getRandomPokemon().toUpperCase();
+    $("#answer").attr("src", "");
+    poke = getRandomPokemon();
+    pokedex = poke[0];
+    poke = poke[1].toUpperCase();
     for(i=0; i<poke.length; i++) {
         $("#row").append($("<div'></div>").addClass("character").append("<p></p>").text("_"));
     } 
@@ -17,7 +21,10 @@ $(document).ready(function () {
 
     $("#replay").click(() => {
         $("#row").html("");
-        poke = getRandomPokemon().toUpperCase();
+        $("#answer").attr("src", "");
+        poke = getRandomPokemon();
+        pokedex = poke[0];
+        poke = poke[1].toUpperCase();
         for(i=0; i<poke.length; i++) {
             $("#row").append($("<div'></div>").addClass("character").append("<p></p>").text("_"));
         } 
@@ -48,6 +55,7 @@ $(document).keydown(function(e) {
     }
     if (found === poke.length) {
         $(".character").css("background-color", "#0F0");
+        $("#answer").attr("src", "https://www.pokebip.com/pokedex-images/300/"+pokedex+".png?v=ev-blueberry");
         errors = 0;
         found = 0;
         score += 1;
@@ -58,6 +66,7 @@ $(document).keydown(function(e) {
         for(i=0; i<poke.length; i++) {
             $("#row").children()[i].innerHTML = "<p>"+ poke[i] +"</p>";
         }
+        $("#answer").attr("src", "https://www.pokebip.com/pokedex-images/300/"+pokedex+".png?v=ev-blueberry");
         errors = 0;
         found = 0;
     }
