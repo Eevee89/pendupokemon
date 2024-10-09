@@ -13,6 +13,7 @@ let poke = "";
 let pokedex = -1;
 let found = 0;
 let errors = 0;
+let end = false;
 let score = 0;
 
 $(document).ready(function () {
@@ -30,6 +31,9 @@ $(document).ready(function () {
         $("#row").append($("<div'></div>").addClass("character").append("<p></p>").text("_"));
     } 
     $(".character").css("width", 90/poke.length + "%");
+    found = 0;
+    errors = 0;
+    end = false;
 
     $("#replay").click(() => {
         $("#row").html("");
@@ -49,6 +53,9 @@ $(document).ready(function () {
         $(".character").css("width", 90/poke.length + "%");
         $("#letters").text("Lettres :");
         $("#errors").text("Erreurs : 0/10");
+        found = 0;
+        errors = 0;
+        end = false;
     });
 
     $(".gen").click(() => {
@@ -68,28 +75,29 @@ $(document).ready(function () {
 
 $(document).keydown(function(e) {
     let code = e.keyCode;
-    if (code >= 65 && code <= 90 || code === 32) {
-        for(i=0; i<poke.length; i++) {
-            if (poke[i] == String.fromCharCode(code)) {
-                $("#row").children()[i].innerHTML = "<p>"+ poke[i] +"</p>";
-                found += 1;
+    let letters = $("#letters").text().split(":")[1];
+    if ((code >= 65 && code <= 90 || code === 32) && letters.search(String.fromCharCode(code)) === -1 && !end) {
+        if (poke.search(String.fromCharCode(code)) === -1) {
+            errors += 1;
+            $("#errors").text("Erreurs : "+errors+"/10");
+        }
+        else {
+            for(i=0; i<poke.length; i++) {
+                if (poke[i] == String.fromCharCode(code)) {
+                    $("#row").children()[i].innerHTML = "<p>"+ poke[i] +"</p>";
+                    found += 1;
+                }
             }
         }
-        let letters = $("#letters").text().split(":")[1];
-        if (letters.search(String.fromCharCode(code)) === -1) {
-            if (poke.search(String.fromCharCode(code)) === -1) {
-                errors += 1;
-                $("#errors").text("Erreurs : "+errors+"/10");
-            }
-            $("#letters").text($("#letters").text()+" "+String.fromCharCode(code));
-        }
+        $("#letters").text($("#letters").text()+" "+String.fromCharCode(code));
     }
     if (found >= poke.length) {
         $(".character").css("background-color", "#0F0");
         $("#answer").attr("src", "https://www.pokebip.com/pokedex-images/300/"+pokedex+".png?v=ev-blueberry");
+        score += (10-errors);
         errors = 0;
         found = 0;
-        score += 1;
+        end = true;
         $("#score").text("Score : "+score);
     }
     if (errors >= 10) {
@@ -100,5 +108,8 @@ $(document).keydown(function(e) {
         $("#answer").attr("src", "https://www.pokebip.com/pokedex-images/300/"+pokedex+".png?v=ev-blueberry");
         errors = 0;
         found = 0;
+        score = 0;
+        $("#score").text("Score : "+score);
+        end = true;
     }
 });
