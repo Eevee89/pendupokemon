@@ -5,26 +5,32 @@
     padding: 0;
 }
 
+img {
+    pointer-events: none;
+    cursor: context-menu;
+}
+
 body {
     height: 100vh;
     width: 100vw;
     background: linear-gradient(#FF9400, #FECA00);
     display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
 }
 
 #pokemon {
-    position: absolute;
-    top: 10%;
-    left: 50%;
     height: 20%;
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
-    transform: translateX(-50%);
+    align-items: center;
 }
 
 #pokemon_logo {
-    height: 50%;
+    height: 70%;
+    aspect-ratio: 738/338;
 }
 
 #title {
@@ -34,9 +40,9 @@ body {
 }
 
 #answer {
-    height: 15%;
+    height: 30%;
     position: absolute;
-    top: 65%;
+    top: 50%;
     left: 50%;
     transform: translateX(-50%);
 }
@@ -44,6 +50,7 @@ body {
 #pikachu {
     position: absolute;
     bottom: 0%;
+    left: 0%;
     height: 20%;
     box-sizing: border-box;
 }
@@ -54,7 +61,7 @@ body {
     justify-content: center;
     align-items: center;
     position: absolute;
-    top: 50%;
+    bottom: 0%;
     height: 10%;
     width: 100%;
 }
@@ -68,12 +75,13 @@ body {
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
-    position: absolute;
-    bottom: 0%;
-    right: 0%;
-    height: 20%;
+    height: 10%;
     width: 80%;
     box-sizing: border-box;
+}
+
+#replay, #score {
+    font-size: 2rem;
 }
 
 #replay:hover {
@@ -86,7 +94,7 @@ body {
     justify-content: space-around;
     align-items: center;
     width: 100%;
-    height: 100%;
+    height: 30%;
 }
 
 p {
@@ -108,7 +116,36 @@ p {
     transform: translateY(-50%);
 }
 
-.succes {
+#generations {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    height: 10%;
+    width: 100%;
+}
+
+#gens {
+    font-size: 2rem;
+}
+
+.gen {
+    background-color: #bfd7ff;
+    padding: 10px;
+    box-sizing: border-box;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60%;
+    cursor: pointer;
+}
+
+.gen>p {
+    font-size: 2rem;
+}
+
+.success {
     background-color: #0F0;
 }
 

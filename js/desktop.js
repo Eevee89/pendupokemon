@@ -1,6 +1,12 @@
-function getRandomPokemon() {
-    let index = Math.floor(Math.random() * 996);
-    return pokemons[index];
+function getRandomPokemon(gens) {
+    let filtered = [];
+    pokemons.forEach((poke) => {
+        if (gens.includes(poke["Generation"])) {
+            filtered.push(poke);
+        }
+    });
+    let index = Math.floor(Math.random() * filtered.length);
+    return filtered[index];
 }
 
 let poke = "";
@@ -11,7 +17,13 @@ let score = 0;
 
 $(document).ready(function () {
     $("#answer").attr("src", "");
-    poke = getRandomPokemon();
+    let gens = [];
+    for(i=1; i<=9; i++) {
+        if ($("#"+i).hasClass("success")) {
+            gens.push(i);
+        }
+    }
+    poke = getRandomPokemon(gens);
     pokedex = poke["Pokedex"];
     poke = poke["Nom"].toUpperCase();
     for(i=0; i<poke.length; i++) {
@@ -22,7 +34,13 @@ $(document).ready(function () {
     $("#replay").click(() => {
         $("#row").html("");
         $("#answer").attr("src", "");
-        poke = getRandomPokemon();
+        let gens = [];
+        for(i=1; i<=9; i++) {
+            if ($("#"+i).hasClass("success")) {
+                gens.push(i);
+            }
+        }
+        poke = getRandomPokemon(gens);
         pokedex = poke["Pokedex"];
         poke = poke["Nom"].toUpperCase();
         for(i=0; i<poke.length; i++) {
@@ -31,6 +49,19 @@ $(document).ready(function () {
         $(".character").css("width", 90/poke.length + "%");
         $("#letters").text("Lettres :");
         $("#errors").text("Erreurs : 0/10");
+    });
+
+    $(".gen").click(() => {
+        if (event.target.classList.contains("success")) {
+            event.target.classList.remove("success");
+            event.target.classList.add("failed");
+            $("#replay").click();
+        }
+        else {
+            event.target.classList.remove("failed");
+            event.target.classList.add("success");
+            $("#replay").click();
+        }
     });
 });
 
@@ -53,7 +84,7 @@ $(document).keydown(function(e) {
             $("#letters").text($("#letters").text()+" "+String.fromCharCode(code));
         }
     }
-    if (found === poke.length) {
+    if (found >= poke.length) {
         $(".character").css("background-color", "#0F0");
         $("#answer").attr("src", "https://www.pokebip.com/pokedex-images/300/"+pokedex+".png?v=ev-blueberry");
         errors = 0;
@@ -61,7 +92,7 @@ $(document).keydown(function(e) {
         score += 1;
         $("#score").text("Score : "+score);
     }
-    if (errors === 10) {
+    if (errors >= 10) {
         $(".character").css("background-color", "#F00");
         for(i=0; i<poke.length; i++) {
             $("#row").children()[i].innerHTML = "<p>"+ poke[i] +"</p>";
