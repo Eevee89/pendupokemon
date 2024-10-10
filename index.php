@@ -1,6 +1,10 @@
 <?php
+session_start();
 include "php/header.php";
+include "php/service.php";
  
+$dbservice = new Service();
+
 if($isMob){ 
     include "php/mobile.php";
 }else{ 

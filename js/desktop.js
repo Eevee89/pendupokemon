@@ -70,13 +70,55 @@ $(document).ready(function () {
             $("#replay").click();
         }
     });
+
+    $("#scoreList").click(() => {
+        $("#scoreModal").css("display", "block");
+        $.ajax({
+            url: 'php/fetchScores.php',
+            type: 'POST',
+            success: function (data) {
+                console.log(JSON.parse(data));
+                $('#tbody').html("");
+                data = JSON.parse(data);
+                data.forEach((row) => {
+                    let name = row.name;
+                    if (name == $("#session_user").text().split(' ')[1]) {
+                        name += " (MOI)";
+                    }
+                    let tr = $("<tr></tr>");
+                    tr.append(`<td>${name}</td><td>${row.score}</td>`);
+                    $("#tbody").append(tr);
+                });
+            },
+            error: function(error) {
+            } 
+        });
+    });
+
+    $("#signup").click(() => {
+        $("#signupModal").css("display", "block");
+    });
+
+    $("#signin").click(() => {
+        $("#signinModal").css("display", "block");
+    });
+
+    $(".close").click(() => {
+        $("#scoreModal").css("display", "none");
+        $("#signupModal").css("display", "none");
+        $("#signinModal").css("display", "none");
+    });
 });
 
 
 $(document).keydown(function(e) {
     let code = e.keyCode;
     let letters = $("#letters").text().split(":")[1];
-    if ((code >= 65 && code <= 90 || code === 32) && letters.search(String.fromCharCode(code)) === -1 && !end) {
+    let isLetterOrSpace = (code >= 65 && code <= 90 || code === 32);
+    let hasNotBeenTyped = letters.search(String.fromCharCode(code)) === -1;
+    let isConnectModalClosed = $("#signupModal").css("display") === "none" && $("#signinModal").css("display") === "none";
+    let isScoreModalClosed = $("#scoreModal").css("display") === "none";
+    if ( isLetterOrSpace && hasNotBeenTyped && !end && isConnectModalClosed && isScoreModalClosed) {
         if (poke.search(String.fromCharCode(code)) === -1) {
             errors += 1;
             $("#errors").text("Erreurs : "+errors+"/10");
@@ -99,6 +141,12 @@ $(document).keydown(function(e) {
         found = 0;
         end = true;
         $("#score").text("Score : "+score);
+        let username = $("#session_user").text().split(' ')[1];
+        $.ajax({
+            url: "php/updateScores.php",
+            type: "POST",
+            data: { name: username, score: score }
+        });
     }
     if (errors >= 10) {
         $(".character").css("background-color", "#F00");
@@ -106,6 +154,7 @@ $(document).keydown(function(e) {
             $("#row").children()[i].innerHTML = "<p>"+ poke[i] +"</p>";
         }
         $("#answer").attr("src", "https://www.pokebip.com/pokedex-images/300/"+pokedex+".png?v=ev-blueberry");
+
         errors = 0;
         found = 0;
         score = 0;
