@@ -26,7 +26,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <p id="session_user">Bienvenue <?=$_SESSION["Username"]?></p>
         <?php else: ?>
             <p id="signup">S'inscrire</p>
-            &nbsp;
             <p id="signin">Se connecter</p>
         <?php endif; ?>
     </div>
