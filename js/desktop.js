@@ -77,7 +77,6 @@ $(document).ready(function () {
             url: 'php/fetchScores.php',
             type: 'POST',
             success: function (data) {
-                console.log(JSON.parse(data));
                 $('#tbody').html("");
                 data = JSON.parse(data);
                 data.forEach((row) => {

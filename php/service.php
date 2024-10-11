@@ -46,7 +46,7 @@ class Service {
         return $count > 0;
     }
 
-    public function insertOrUpdate($data, $primaryKey = 'id') {
+    public function update($data, $primaryKey = 'id') {
         // Prepare the SQL statement based on whether the primary key exists
 
         $sql = "";
@@ -61,11 +61,6 @@ class Service {
                 $sql .= "WHERE name = '" . $data["name"] . "';";
             }
         }
-        else {
-            $sql .= "INSERT INTO $this->tableName (name, score) ";
-            $sql .= "VALUES ('". $data["name"] ."', ";
-            $sql .= strval($data["score"]) .");";
-        }
 
         if($sql !== "") {
             // Prepare the PDO statement
@@ -75,7 +70,7 @@ class Service {
             return $result;
         }
         else {
-            return true;
+            return -1;
         }
     }
 }  
