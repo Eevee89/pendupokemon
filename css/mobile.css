@@ -157,10 +157,6 @@ body {
 
 /* Modals CSS */
 
-span {
-    font-size: 2rem;
-}
-
 #scoreList {
     position: absolute;
     top: 0%;
@@ -183,7 +179,7 @@ span {
     width: auto;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: start;
 }
 
 #connect:hover {
@@ -276,7 +272,7 @@ input[type=submit]:hover {
 .close {
     color: #aaaaaa;
     float: right;
-    font-size: 28px;
+    font-size: 2rem;
     font-weight: bold;
 }
 
