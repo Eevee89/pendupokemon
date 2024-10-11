@@ -34,6 +34,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <img id="pokemon_logo" src="pokemon_logo.png">
     </div>
     <div id="sep" style="height: 10px;"></div>
+    <div id="generations">
+        <p id="gens">Générations actives : </p>
+        <?php for($i=1; $i<=9; $i++): ?>
+            <div id=<?="$i"?> class="gen success"><p style="pointer-events: none;"><?=$i?></p></div>
+        <?php endfor ?>
+    </div>
+    <div id="sep" style="height: 10px;"></div>
     <div id="row"></div>
     <div id="guess">
         <p id="errors">Erreurs : 0/10</p>

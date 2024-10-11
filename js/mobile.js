@@ -1,6 +1,12 @@
-function getRandomPokemon() {
-    let index = Math.floor(Math.random() * 996);
-    return pokemons[index];
+function getRandomPokemon(gens) {
+    let filtered = [];
+    pokemons.forEach((poke) => {
+        if (gens.includes(poke["Generation"])) {
+            filtered.push(poke);
+        }
+    });
+    let index = Math.floor(Math.random() * filtered.length);
+    return filtered[index];
 }
 
 let poke = "";
@@ -10,7 +16,13 @@ let errors = 0;
 let score = 0;
 
 $(document).ready(function () {
-    poke = getRandomPokemon();
+    let gens = [];
+    for(i=1; i<=9; i++) {
+        if ($("#"+i).hasClass("success")) {
+            gens.push(i);
+        }
+    }
+    poke = getRandomPokemon(gens);
     pokedex = poke["Pokedex"];
     poke = poke["Nom"].toUpperCase();
     for(i=0; i<poke.length; i++) {
@@ -20,7 +32,13 @@ $(document).ready(function () {
 
     $("#replay").click(() => {
         $("#row").html("");
-        poke = getRandomPokemon();
+        let gens = [];
+        for(i=1; i<=9; i++) {
+            if ($("#"+i).hasClass("success")) {
+                gens.push(i);
+            }
+        }
+        poke = getRandomPokemon(gens);
         pokedex = poke["Pokedex"];
         poke = poke["Nom"].toUpperCase();
         for(i=0; i<poke.length; i++) {
@@ -35,6 +53,19 @@ $(document).ready(function () {
         $("#Space").removeClass("used");
         $("#tiles").show();
         $("#answer").hide();
+    });
+
+    $(".gen").click(() => {
+        if (event.target.classList.contains("success")) {
+            event.target.classList.remove("success");
+            event.target.classList.add("failed");
+            $("#replay").click();
+        }
+        else {
+            event.target.classList.remove("failed");
+            event.target.classList.add("success");
+            $("#replay").click();
+        }
     });
 
     $(".tile").click((event) => {
@@ -90,6 +121,43 @@ $(document).ready(function () {
                 $("#Space").removeClass("used");
             }
         }
+    });
+
+    $("#scoreList").click(() => {
+        $("#scoreModal").css("display", "block");
+        $.ajax({
+            url: 'php/fetchScores.php',
+            type: 'POST',
+            success: function (data) {
+                $('#tbody').html("");
+                data = JSON.parse(data);
+                data.forEach((row) => {
+                    let name = row.name;
+                    if (name == $("#session_user").text().split(' ')[1]) {
+                        name += " (MOI)";
+                    }
+                    let tr = $("<tr></tr>");
+                    tr.append(`<td>${name}</td><td>${row.score}</td>`);
+                    $("#tbody").append(tr);
+                });
+            },
+            error: function(error) {
+            } 
+        });
+    });
+
+    $("#signup").click(() => {
+        $("#signupModal").css("display", "block");
+    });
+
+    $("#signin").click(() => {
+        $("#signinModal").css("display", "block");
+    });
+
+    $(".close").click(() => {
+        $("#scoreModal").css("display", "none");
+        $("#signupModal").css("display", "none");
+        $("#signinModal").css("display", "none");
     });
 
     $(".tileP").click((event) => {
