@@ -10,6 +10,9 @@ $isMob = is_numeric(strpos(strtolower($_SERVER["HTTP_USER_AGENT"]), "mobile"));
     <meta property="og:type" content="article" />
     <meta property="og:title" content="Pendu Pokémon" />
     <meta property="og:image" content="https://jorismartin.fr/pikachu.png" />
+    <meta property="og:image:width" content="595" />
+    <meta property="og:image:height" content="419" />
+    <meta property="og:image:alt" content="Jouez au pendu avec des pokémons" />
     <title>Pendu Pokemon</title>
     <link rel="icon" href="pokeball.png"/>
     
