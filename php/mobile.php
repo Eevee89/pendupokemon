@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <body>
     <div id="scoreList">
-        <img src="menu.png" srcset="menu.svg">
+        <img src="menu_mobile.png" srcset="menu_mobile.svg">
     </div>
     <div id="connect">
         <?php if(isset($_SESSION["Username"])): ?>
