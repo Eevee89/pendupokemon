@@ -80,6 +80,10 @@ body {
     height: 60%;
 }
 
+#answer {
+    height: 60%;
+}
+
 .tileRow {
     display: flex;
     flex-direction: row;
@@ -120,4 +124,178 @@ body {
 
 .used {
     opacity: 0.2;
+}
+
+/* Modals CSS */
+
+#scoreList {
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    margin: 10px;
+    width: auto;
+    display: flex;
+    justify-content: center;
+}
+
+#scoreList:hover {
+    cursor: pointer;
+}
+
+#connect {
+    position: absolute;
+    top: 0%;
+    right: 0%;
+    margin: 10px;
+    width: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+#connect:hover {
+    cursor: pointer;
+}
+
+#connect>p {
+    font-size: 1.5rem;
+    color: #2F509D;
+    font-weight: 500;
+    padding: 10px;
+    border-radius: 20px;
+}
+
+#signin:hover, #signup:hover {
+    background-color: #2F509D;
+    color: #bfd7ff;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content>p {
+    font-size: 1.5rem;
+}
+
+.modal-content {
+    background: linear-gradient(#FF9400, #FECA00);
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    border-radius: 20px;
+    max-height: 70%;
+    overflow: scroll;
+}
+
+input[type=text], select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+input[type=password], select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+input[type=submit] {
+    width: 25%;
+    background-color: #bb9915;
+    color: #2F509D;
+    font-weight: 500;
+    font-family: "Fredoka", sans-serif;
+    font-size: 1.2rem;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    justify-self: center;
+}
+
+input[type=submit]:hover {
+    background-color: #FFCB05;
+}
+
+.close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+table {
+    border-collapse: collapse;
+    border: 2px solid rgb(140 140 140);
+    font-family: sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    pointer-events: none;
+}
+  
+caption {
+    padding: 10px;
+    font-weight: bold;
+    font-size: 1.5rem;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+thead,
+tfoot {
+    background-color: #bfd7ff;
+}
+
+th,
+td {
+    border: 1px solid rgb(160 160 160);
+    padding: 8px 10px;
+    font-size: 1.2rem;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+td:last-of-type {
+    text-align: center;
+}
+
+tbody > tr:nth-of-type(even) {
+    background-color: #FECA00;
+}
+tbody > tr:nth-of-type(odd) {
+    background-color: #FF9400;
+}
+
+tfoot th {
+    text-align: right;
 }

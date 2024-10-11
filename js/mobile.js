@@ -33,6 +33,8 @@ $(document).ready(function () {
             $("#"+String.fromCharCode(i)).removeClass("used");
         }
         $("#Space").removeClass("used");
+        $("#tiles").show();
+        $("#answer").hide();
     });
 
     $(".tile").click((event) => {
@@ -63,6 +65,9 @@ $(document).ready(function () {
                 found = 0;
                 score += 1;
                 $("#score").text("Score : "+score);
+                $("#answer").attr("src", "https://www.pokebip.com/pokedex-images/300/"+pokedex+".png?v=ev-blueberry");
+                $("#tiles").hide();
+                $("#answer").show();
             }
             if (errors === 10) {
                 $(".character").css("background-color", "#F00");
@@ -71,6 +76,9 @@ $(document).ready(function () {
                 }
                 errors = 0;
                 found = 0;
+                $("#answer").attr("src", "https://www.pokebip.com/pokedex-images/300/"+pokedex+".png?v=ev-blueberry");
+                $("#tiles").hide();
+                $("#answer").show();
             }
             letters = $("#letters").text().split(":")[1];
             for(i=65; i<91; i++) {
@@ -82,6 +90,10 @@ $(document).ready(function () {
                 $("#Space").removeClass("used");
             }
         }
+    });
+
+    $(".tileP").click((event) => {
+        $(event.target).parent().click();
     });
 
     for(i=65; i<91; i++) {

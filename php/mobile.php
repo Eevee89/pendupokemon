@@ -1,4 +1,34 @@
+<?php
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+    if ($_POST["FORMTYPE"] === "SIGNINFORM") {
+        $stored = $dbservice->getPassword($_POST["username"]);
+        if ($stored === $_POST["password"]) {
+            $_SESSION["Username"] = $_POST["username"];
+        }
+    }
+    else {
+        if ($_POST["password"] === $_POST["cpassword"] 
+            && $dbservice->createAccount($_POST["username"], $_POST["password"])) {
+                $_SESSION["Username"] = $_POST["username"];
+        }
+    }
+
+}
+?>
+
 <body>
+    <div id="scoreList">
+        <img src="menu.png" srcset="menu.svg">
+    </div>
+    <div id="connect">
+        <?php if(isset($_SESSION["Username"])): ?>
+            <p id="session_user">Bienvenue <?=$_SESSION["Username"]?></p>
+        <?php else: ?>
+            <p id="signup">S'inscrire</p>
+            <p id="signin">Se connecter</p>
+        <?php endif; ?>
+    </div>
     <div id="pokemon">
         <p id="title">Pendu</p>
         <img id="pokemon_logo" src="pokemon_logo.png">
@@ -13,11 +43,12 @@
         <p id="replay">Rejouer</p>
         <p id="score">Score : 0</p>
     </div>
+    <img id="answer" src="https://www.pokebip.com/pokedex-images/300/1.png?v=ev-blueberry" hidden>
     <div id="tiles">
         <?php for($i=0; $i<6; $i++): ?>
             <div class="tileRow">
                 <?php for($j=0; $j<4; $j++): ?>
-                    <div id="<?=chr(65+4*$i+$j)?>" class="tile used"><p><?=chr(65+4*$i+$j)?></p></div>
+                    <div id="<?=chr(65+4*$i+$j)?>" class="tile used"><p class="tileP"><?=chr(65+4*$i+$j)?></p></div>
                 <?php endfor; ?>
             </div>
         <?php endfor; ?>
@@ -28,4 +59,52 @@
         </div>
     </div>
     <img id="pikachu" src="pikachu.png">
+
+    <div id="scoreModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div style="display: flex; justify-content: center;">
+                <table id="scoreTable">
+                    <caption>Liste des scores</caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">Pseudo</th>
+                            <th scope="col">Meilleur score</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div id="signupModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <form action="" method="POST">
+                <input name="FORMTYPE" type="hidden" value="SIGNUPFORM">
+                <input name="username" id="suusername" type="text" placeholder="Entrez votre pseudo">
+                <input name="password" id="supassword" type="password" placeholder="Entrez votre mot de passe">
+                <input name="cpassword" id="sucpassword" type="password" placeholder="Confirmez votre mot de passe">
+                <div style="display: flex; justify-content: center; width: 100%;">
+                    <input id="signupBtn" type="submit">
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="signinModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <form action="" method="POST">
+                <input name="FORMTYPE" type="hidden" value="SIGNINFORM">
+                <input name="username" id="siusername" type="text" placeholder="Entrez votre pseudo">
+                <input name="password" id="sipassword" type="password" placeholder="Entrez votre mot de passe">
+                <div style="display: flex; justify-content: center; width: 100%;">
+                    <input id="signinBtn" type="submit">
+                </div>
+            </form>
+        </div>
+    </div>
 </body>
