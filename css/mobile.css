@@ -157,6 +157,10 @@ body {
 
 /* Modals CSS */
 
+span {
+    font-size: 2rem;
+}
+
 #scoreList {
     position: absolute;
     top: 0%;
@@ -178,7 +182,7 @@ body {
     margin: 10px;
     width: auto;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
 }
 
@@ -256,7 +260,7 @@ input[type=submit] {
     color: #2F509D;
     font-weight: 500;
     font-family: "Fredoka", sans-serif;
-    font-size: 3rem;
+    font-size: 2.5rem;
     padding: 14px 20px;
     margin: 8px 0;
     border: none;
