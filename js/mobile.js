@@ -92,9 +92,9 @@ $(document).ready(function () {
             }
             if (found === poke.length) {
                 $(".character").css("background-color", "#0F0");
-                errors = 0;
                 found = 0;
                 score += (10-errors);
+                errors = 0;
                 $("#score").text("Score : "+score);
                 let username = $("#session_user").text().split(' ')[1];
                 $.ajax({
