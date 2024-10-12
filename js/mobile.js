@@ -94,8 +94,14 @@ $(document).ready(function () {
                 $(".character").css("background-color", "#0F0");
                 errors = 0;
                 found = 0;
-                score += 1;
+                score += (10-errors);
                 $("#score").text("Score : "+score);
+                let username = $("#session_user").text().split(' ')[1];
+                $.ajax({
+                    url: "php/updateScores.php",
+                    type: "POST",
+                    data: { name: username, score: score }
+                });
                 $("#answer").attr("src", "https://www.pokebip.com/pokedex-images/300/"+pokedex+".png?v=ev-blueberry");
                 $("#tiles").hide();
                 $("#answer").show();
@@ -105,6 +111,7 @@ $(document).ready(function () {
                 for(i=0; i<poke.length; i++) {
                     $("#row").children()[i].innerHTML = "<p>"+ poke[i] +"</p>";
                 }
+                score = 0;
                 errors = 0;
                 found = 0;
                 $("#answer").attr("src", "https://www.pokebip.com/pokedex-images/300/"+pokedex+".png?v=ev-blueberry");
