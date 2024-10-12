@@ -71,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </div>
     <div id="pokemon">
         <p id="title">Pendu</p>
-        <img id="images/pokemon_logo" src="images/pokemon_logo.png">
+        <img id="pokemon_logo" src="images/pokemon_logo.png">
     </div>
     <div id="generations">
         <p id="gens">Générations actives : </p>
@@ -89,7 +89,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <p id="letters">Lettres :</p>
     </div>
     <img id="answer" src="https://www.pokebip.com/pokedex-images/300/1.png?v=ev-blueberry">
-    <img id="images/pikachu" src="images/pikachu.png">
+    <img id="pikachu" src="images/pikachu.png">
 
     <div id="scoreModal" class="modal">
         <div class="modal-content">
