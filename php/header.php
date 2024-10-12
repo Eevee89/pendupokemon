@@ -14,7 +14,7 @@ $isMob = is_numeric(strpos(strtolower($_SERVER["HTTP_USER_AGENT"]), "mobile"));
     <meta property="og:image:height" content="419" />
     <meta property="og:image:alt" content="Jouez au pendu avec des pokémons" />
     <title>Pendu Pokemon</title>
-    <link rel="icon" href="pokeball.png"/>
+    <link rel="icon" href="images/pokeball.png"/>
     
     <?php if($isMob): ?>
         <link rel="stylesheet" href="css/mobile.css"/>

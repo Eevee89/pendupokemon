@@ -57,12 +57,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <body>
     <div id="scoreList">
-        <img src="menu.png" srcset="menu.svg">
+        <img src="images/menu.png" srcset="images/menu.svg">
     </div>
     <div id="connect" class=<?=$classes?>>
         <?php if(isset($_SESSION["Username"])): ?>
             <p id="myaccount">Mon compte</p>
-            <img src="account.png" srcset="account.svg">
+            <img src="images/account.png" srcset="images/account.svg">
             <p id="session_user" hidden>Bienvenue <?=$_SESSION["Username"]?></p>
         <?php else: ?>
             <p id="signup">S'inscrire</p>
@@ -71,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </div>
     <div id="pokemon">
         <p id="title">Pendu</p>
-        <img id="pokemon_logo" src="pokemon_logo.png">
+        <img id="images/pokemon_logo" src="images/pokemon_logo.png">
     </div>
     <div id="generations">
         <p id="gens">Générations actives : </p>
@@ -89,7 +89,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <p id="letters">Lettres :</p>
     </div>
     <img id="answer" src="https://www.pokebip.com/pokedex-images/300/1.png?v=ev-blueberry">
-    <img id="pikachu" src="pikachu.png">
+    <img id="images/pikachu" src="images/pikachu.png">
 
     <div id="scoreModal" class="modal">
         <div class="modal-content">

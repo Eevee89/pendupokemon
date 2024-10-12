@@ -57,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <body>
     <div id="scoreList">
-        <img src="menu_mobile.png" srcset="menu_mobile.svg">
+        <img src="images/menu_mobile.png" srcset="images/menu_mobile.svg">
     </div>
     <div id="connect" class=<?=$classes?>>
         <?php if(isset($_SESSION["Username"])): ?>
@@ -70,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </div>
     <div id="pokemon">
         <p id="title">Pendu</p>
-        <img id="pokemon_logo" src="pokemon_logo.png">
+        <img id="images/pokemon_logo" src="images/pokemon_logo.png">
     </div>
     <div id="sep" style="height: 10px;"></div>
     <div id="generations">
@@ -104,7 +104,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <div id="Space" class="tile used"><p>_</p></div>
         </div>
     </div>
-    <img id="pikachu" src="pikachu.png">
+    <img id="images/pikachu" src="images/pikachu.png">
 
     <div id="scoreModal" class="modal">
         <div class="modal-content">
