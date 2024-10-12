@@ -62,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <div id="connect" class=<?=$classes?>>
         <?php if(isset($_SESSION["Username"])): ?>
             <p id="myaccount">Mon compte</p>
-            <img src="account_mobile.png" srcset="account_mobile.svg">
+            <img src="account.png" srcset="account.svg">
             <p id="session_user" hidden>Bienvenue <?=$_SESSION["Username"]?></p>
         <?php else: ?>
             <p id="signup">S'inscrire</p>
@@ -160,16 +160,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <span class="close">&times;</span>
             <form action="" method="POST">
                 <input name="FORMTYPE" type="hidden" value="CHANGEPASS">
-                <input name="password" id="chpassword" type="password" placeholder="Entrez votre nouveau mot de passe">
-                <input name="cpassword" id="chcpassword" type="password" placeholder="Confirmez votre nouveau mot de passe">
+                <input name="password" id="chpassword" type="password" placeholder="Entrez nouv. mot de passe">
+                <input name="cpassword" id="chcpassword" type="password" placeholder="Confirmez nouv. mot de passe">
                 <div style="display: flex; justify-content: center; width: 100%;">
-                    <input id="signinBtn" type="submit" value="Changer le mot de passe">
+                    <input id="changeBtn" type="submit" value="Changer le mdp">
                 </div>
             </form>
             <form action="" method="POST">
                 <input name="FORMTYPE" type="hidden" value="DISCONNECTION">
                 <div style="display: flex; justify-content: center; width: 100%;">
-                    <input id="signinBtn" type="submit" class="close" value="Déconnexion">
+                    <input id="discoBtn" type="submit" class="close" value="Déconnexion">
                 </div>
             </form>
         </div>

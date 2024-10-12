@@ -147,13 +147,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <input name="password" id="chpassword" type="password" placeholder="Entrez votre nouveau mot de passe">
                 <input name="cpassword" id="chcpassword" type="password" placeholder="Confirmez votre nouveau mot de passe">
                 <div style="display: flex; justify-content: center; width: 100%;">
-                    <input id="signinBtn" type="submit" value="Changer le mot de passe">
+                    <input id="changeBtn" type="submit" value="Changer le mot de passe">
                 </div>
             </form>
             <form action="" method="POST">
                 <input name="FORMTYPE" type="hidden" value="DISCONNECTION">
                 <div style="display: flex; justify-content: center; width: 100%;">
-                    <input id="signinBtn" type="submit" class="close" value="Déconnexion">
+                    <input id="discoBtn" type="submit" class="close" value="Déconnexion">
                 </div>
             </form>
         </div>

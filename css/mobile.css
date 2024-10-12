@@ -265,6 +265,10 @@ input[type=submit] {
     justify-self: center;
 }
 
+#changeBtn, #discoBtn {
+    width: 34%;
+}
+
 input[type=submit]:hover {
     background-color: #FFCB05;
 }
