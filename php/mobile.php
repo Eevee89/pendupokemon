@@ -87,7 +87,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </div>
     <div id="bottom">
         <p id="replay">Rejouer</p>
-        <p id="hint">Indice</p>
         <p id="score">Score : 0</p>
     </div>
     <img id="answer" src="https://www.pokebip.com/pokedex-images/300/1.png?v=ev-blueberry" hidden>
