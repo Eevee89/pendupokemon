@@ -203,6 +203,10 @@ p {
     color: #bfd7ff;
 }
 
+#myaccount:hover {
+    cursor: context-menu;
+}
+
 .modal {
     display: none;
     position: fixed;

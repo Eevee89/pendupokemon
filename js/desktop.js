@@ -102,10 +102,15 @@ $(document).ready(function () {
         $("#signinModal").css("display", "block");
     });
 
+    $(".connected").click(() => {
+        $("#accountModal").css("display", "block");
+    });
+
     $(".close").click(() => {
         $("#scoreModal").css("display", "none");
         $("#signupModal").css("display", "none");
         $("#signinModal").css("display", "none");
+        $("#accountModal").css("display", "none");
     });
 });
 
@@ -117,7 +122,8 @@ $(document).keydown(function(e) {
     let hasNotBeenTyped = letters.search(String.fromCharCode(code)) === -1;
     let isConnectModalClosed = $("#signupModal").css("display") === "none" && $("#signinModal").css("display") === "none";
     let isScoreModalClosed = $("#scoreModal").css("display") === "none";
-    if ( isLetterOrSpace && hasNotBeenTyped && !end && isConnectModalClosed && isScoreModalClosed) {
+    let isAccountModalClosed = $("#accountModal").css("display") === "none";
+    if ( isLetterOrSpace && hasNotBeenTyped && !end && isConnectModalClosed && isScoreModalClosed && isAccountModalClosed) {
         if (poke.search(String.fromCharCode(code)) === -1) {
             errors += 1;
             $("#errors").text("Erreurs : "+errors+"/10");

@@ -30,11 +30,14 @@ class Service {
     }
 
     public function createAccount($name, $password) {
-        $sql = "INSERT INTO $this->tableName (name, score, password) ";
-        $sql .= "VALUES ('". $name ."', 0, '";
-        $sql .= $password ."');";
-        $stmt = $this->pdo->prepare($sql);
-        return $stmt->execute();
+        if ($name != '') {
+            $sql = "INSERT INTO $this->tableName (name, score, password) ";
+            $sql .= "VALUES ('". $name ."', 0, '";
+            $sql .= $password ."');";
+            $stmt = $this->pdo->prepare($sql);
+            return $stmt->execute();
+        }
+        return false;
     }
 
     public function checkIfNameExists($value) {
@@ -44,6 +47,14 @@ class Service {
         $stmt->execute([$value]);
         $count = $stmt->fetchColumn();
         return $count > 0;
+    }
+
+    public function modifyPassword($name, $password) {
+        $sql = "UPDATE $this->tableName ";
+        $sql .= "SET password = '$password' ";
+        $sql .= "WHERE name = '$name';";
+        $stmt = $this->pdo->prepare($sql);
+        return $stmt->execute();
     }
 
     public function update($data, $primaryKey = 'id') {
