@@ -161,10 +161,15 @@ $(document).ready(function () {
         $("#signinModal").css("display", "block");
     });
 
+    $(".connected").click(() => {
+        $("#accountModal").css("display", "block");
+    });
+
     $(".close").click(() => {
         $("#scoreModal").css("display", "none");
         $("#signupModal").css("display", "none");
         $("#signinModal").css("display", "none");
+        $("#accountModal").css("display", "none");
     });
 
     $(".tileP").click((event) => {

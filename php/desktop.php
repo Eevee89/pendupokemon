@@ -62,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <div id="connect" class=<?=$classes?>>
         <?php if(isset($_SESSION["Username"])): ?>
             <p id="myaccount">Mon compte</p>
-            <img id="accsett" style="z-index: 1;" src="account.png" srcset="account.svg">
+            <img src="account.png" srcset="account.svg">
             <p id="session_user" hidden>Bienvenue <?=$_SESSION["Username"]?></p>
         <?php else: ?>
             <p id="signup">S'inscrire</p>

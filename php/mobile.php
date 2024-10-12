@@ -1,17 +1,55 @@
 <?php
+
+$classes = "";
+if (isset($_SESSION["Username"])) {
+    $classes = "connected";
+}
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if ($_POST["FORMTYPE"] === "SIGNINFORM") {
         $stored = $dbservice->getPassword($_POST["username"]);
         if ($stored === $_POST["password"]) {
             $_SESSION["Username"] = $_POST["username"];
+            $classes = "connected";
+            echo '<script>alert("Ravi de vous revoir '.$_SESSION["Username"].' .")</script>';
+        }
+        else {
+            echo '<script>alert("Le nom d\'utilisateur ou mot de passe est erroné.")</script>';
         }
     }
-    else {
-        if ($_POST["password"] === $_POST["cpassword"] 
-            && $dbservice->createAccount($_POST["username"], $_POST["password"])) {
+    else if ($_POST["FORMTYPE"] === "SIGNUPFORM") {
+        if ($_POST["password"] === $_POST["cpassword"] ) {
+            if ($dbservice->createAccount($_POST["username"], $_POST["password"])) {
                 $_SESSION["Username"] = $_POST["username"];
+                $classes = "connected";
+                echo '<script>alert("Vous êtes inscrit, bienvenue.")</script>';
+            }
+            else {
+                echo '<script>alert("Une erreur est survenue\nLe comtpe n\' pas été créé.")</script>';
+            }
         }
+        else {
+            echo '<script>alert("La confirmation n\'est pas égale au mot de passe entré.")</script>';
+        }
+    }
+    else if ($_POST["FORMTYPE"] === "CHANGEPASS") {
+        if ($_POST["password"] === $_POST["cpassword"] ) {
+            if ($dbservice->modifyPassword($_SESSION["Username"], $_POST["password"])) {
+                echo '<script>alert("Mot de passe modifié avec succès.")</script>';
+            }
+            else {
+                echo '<script>alert("Une erreur est survenue\nMot de passe non modifié.")</script>';
+            }
+        }
+        else {
+            echo '<script>alert("La confirmation n\'est pas égale au mot de passe entré.")</script>';
+        }
+        $classes = "connected";
+    }
+    else {
+        unset($_SESSION["Username"]);
+        $classes = "";
     }
 
 }
@@ -21,9 +59,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <div id="scoreList">
         <img src="menu_mobile.png" srcset="menu_mobile.svg">
     </div>
-    <div id="connect">
+    <div id="connect" class=<?=$classes?>>
         <?php if(isset($_SESSION["Username"])): ?>
-            <p id="session_user">Bienvenue <?=$_SESSION["Username"]?></p>
+            <p id="myaccount">Mon compte</p>
+            <img src="account_mobile.png" srcset="account_mobile.svg">
+            <p id="session_user" hidden>Bienvenue <?=$_SESSION["Username"]?></p>
         <?php else: ?>
             <p id="signup">S'inscrire</p>
             <p id="signin">Se connecter</p>
@@ -110,6 +150,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <input name="password" id="sipassword" type="password" placeholder="Entrez votre mot de passe">
                 <div style="display: flex; justify-content: center; width: 100%;">
                     <input id="signinBtn" type="submit">
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="accountModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <form action="" method="POST">
+                <input name="FORMTYPE" type="hidden" value="CHANGEPASS">
+                <input name="password" id="chpassword" type="password" placeholder="Entrez votre nouveau mot de passe">
+                <input name="cpassword" id="chcpassword" type="password" placeholder="Confirmez votre nouveau mot de passe">
+                <div style="display: flex; justify-content: center; width: 100%;">
+                    <input id="signinBtn" type="submit" value="Changer le mot de passe">
+                </div>
+            </form>
+            <form action="" method="POST">
+                <input name="FORMTYPE" type="hidden" value="DISCONNECTION">
+                <div style="display: flex; justify-content: center; width: 100%;">
+                    <input id="signinBtn" type="submit" class="close" value="Déconnexion">
                 </div>
             </form>
         </div>
