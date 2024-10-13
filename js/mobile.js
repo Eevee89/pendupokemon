@@ -69,6 +69,8 @@ $(document).ready(function () {
         $(".character").css("width", 90/nom.length + "%");
         $("#letters").text("Lettres :");
         $("#errors").text("Erreurs : 0/10");
+        found = 0;
+        errors = 0;
         for(i=65; i<91; i++) {
             $("#"+String.fromCharCode(i)).removeClass("used");
         }
