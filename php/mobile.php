@@ -81,13 +81,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </div>
     <div id="sep" style="height: 10px;"></div>
     <div id="row"></div>
-    <div id="guess">
-        <p id="errors">Erreurs : 0/10</p>
-        <p id="letters">Lettres :</p>
-    </div>
     <div id="hints" hidden>
         <img id="type1" src="">
         <img id="type2" hidden src="">
+    </div>
+    <div id="guess">
+        <p id="errors">Erreurs : 0/10</p>
+        <p id="letters">Lettres :</p>
     </div>
     <div id="bottom">
         <p id="replay">Rejouer</p>
