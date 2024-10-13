@@ -82,7 +82,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <div id="row"></div>
     <div id="bottom">
         <p id="replay">Rejouer</p>
+        <p id="hint">Indice</p>
         <p id="score">Score : 0</p>
+    </div>
+    <div id="hints" hidden>
+        <img id="type1" src="">
+        <img id="type2" hidden src="">
     </div>
     <div id="guess">
         <p id="errors">Erreurs : 0/10</p>

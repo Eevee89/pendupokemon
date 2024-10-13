@@ -76,6 +76,16 @@ body {
     font-size: 1.5rem;
 }
 
+#hints {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 30%;
+    height: auto;
+    position: absolute;
+    bottom: 12%;
+}
+
 #bottom {
     display: flex;
     flex-direction: row;
@@ -86,12 +96,17 @@ body {
     box-sizing: border-box;
 }
 
-#replay, #score {
+#replay, #score, #hint {
     font-size: 2rem;
 }
 
-#replay:hover {
+#replay:hover, #hint:hover {
     cursor: pointer;
+}
+
+.hint {
+    color: transparent;
+    cursor: context-menu;
 }
 
 #row {

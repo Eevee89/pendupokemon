@@ -85,8 +85,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <p id="errors">Erreurs : 0/10</p>
         <p id="letters">Lettres :</p>
     </div>
+    <div id="hints" hidden>
+        <img id="type1" src="">
+        <img id="type2" hidden src="">
+    </div>
     <div id="bottom">
         <p id="replay">Rejouer</p>
+        <p id="hint">Indice</p>
         <p id="score">Score : 0</p>
     </div>
     <img id="answer" src="https://www.pokebip.com/pokedex-images/300/1.png?v=ev-blueberry" hidden>
