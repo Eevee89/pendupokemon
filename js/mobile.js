@@ -146,6 +146,7 @@ $(document).ready(function () {
                 $("#answer").attr("src", "https://www.pokebip.com/pokedex-images/300/"+pokedex+".png?v=ev-blueberry");
                 $("#tiles").hide();
                 $("#answer").show();
+                $("#hint").addClass("hint");
             }
             if (errors >= 10) {
                 $(".character").css("background-color", "#F00");
@@ -158,6 +159,7 @@ $(document).ready(function () {
                 $("#answer").attr("src", "https://www.pokebip.com/pokedex-images/300/"+pokedex+".png?v=ev-blueberry");
                 $("#tiles").hide();
                 $("#answer").show();
+                $("#hint").addClass("hint");
             }
             letters = $("#letters").text().split(":")[1];
             for(i=65; i<91; i++) {
