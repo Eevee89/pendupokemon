@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_SESSION["Username"]) && $_POST["name"] === $_SESSION["Username"]) {
         $data = [
             "name" => $_POST["name"],
-            "score" => $_POST['score']
+            "score" => bindec(strrev(substr(decbin($_POST['score']),1)))
         ];
 
         $dbservice = new Service();

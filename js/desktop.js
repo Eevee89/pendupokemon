@@ -172,7 +172,6 @@ $(document).keydown(function(e) {
     }
     if (found >= nom.length) {
         $(".character").css("background-color", "#0F0");
-        $("#hint").addClass("hint");
         $("#answer").attr("src", "https://www.pokebip.com/pokedex-images/300/"+pokedex+".png?v=ev-blueberry");
         toAdd = 10-errors;
         if ($("#hint").hasClass("hint")) {
@@ -185,12 +184,16 @@ $(document).keydown(function(e) {
         errors = 0;
         found = 0;
         end = true;
+        $("#hint").addClass("hint");
         $("#score").text("Score : "+score);
         let username = $("#session_user").text().split(' ')[1];
+        let tmp = Number(score).toString(2);
+        toSend = (tmp+"1").split("").reverse().join("");
+        toSend = parseInt(toSend, 2);
         $.ajax({
             url: "php/updateScores.php",
             type: "POST",
-            data: { name: username, score: score }
+            data: { name: username, score: toSend }
         });
     }
     if (errors >= 10) {
