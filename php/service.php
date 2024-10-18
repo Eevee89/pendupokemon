@@ -30,7 +30,7 @@ class Service {
     }
 
     public function createAccount($name, $password) {
-        if ($name != '') {
+        if ($name != '' && !$this->checkIfNameExists($name)) {
             $sql = "INSERT INTO $this->tableName (name, score, password) ";
             $sql .= "VALUES ('". $name ."', 0, '";
             $sql .= $password ."');";
