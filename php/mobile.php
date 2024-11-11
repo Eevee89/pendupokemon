@@ -8,8 +8,8 @@ if (isset($_SESSION["Username"])) {
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if ($_POST["FORMTYPE"] === "SIGNINFORM") {
-        $stored = $dbservice->getPassword($_POST["username"]);
-        if ($stored === $_POST["password"]) {
+        $hash = $dbservice->getPassword($_POST["username"]);
+        if (password_verify($_POST["password"], $hash)) {
             $_SESSION["Username"] = $_POST["username"];
             $classes = "connected";
             echo '<script>alert("Ravi de vous revoir '.$_SESSION["Username"].' .")</script>';
@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
     else if ($_POST["FORMTYPE"] === "SIGNUPFORM") {
         if ($_POST["password"] === $_POST["cpassword"] ) {
-            if ($dbservice->createAccount($_POST["username"], $_POST["password"])) {
+            if ($dbservice->createAccount($_POST["username"], password_hash($_POST["password"], PASSWORD_BCRYPT))) {
                 $_SESSION["Username"] = $_POST["username"];
                 $classes = "connected";
                 echo '<script>alert("Vous êtes inscrit, bienvenue.")</script>';
@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
     else if ($_POST["FORMTYPE"] === "CHANGEPASS") {
         if ($_POST["password"] === $_POST["cpassword"] ) {
-            if ($dbservice->modifyPassword($_SESSION["Username"], $_POST["password"])) {
+            if ($dbservice->modifyPassword($_SESSION["Username"], password_hash($_POST["password"], PASSWORD_BCRYPT))) {
                 echo '<script>alert("Mot de passe modifié avec succès.")</script>';
             }
             else {
