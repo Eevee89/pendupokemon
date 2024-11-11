@@ -59,6 +59,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <div id="scoreList">
         <img src="images/menu.png" srcset="images/menu.svg">
     </div>
+    <?php if(!$isios): ?>
+        <div id="dlapk">
+            <a href="https://jorismartin.fr/apk/pendupokemon.apk" download="pendupokemon.apk">
+                <img src="images/download.png" srcset="images/download.svg">
+            </a>
+            <p>Télécharger l'APK</p>
+        </div>
+    <?php endif; ?>
     <div id="connect" class=<?=$classes?>>
         <?php if(isset($_SESSION["Username"])): ?>
             <p id="myaccount">Mon compte</p>

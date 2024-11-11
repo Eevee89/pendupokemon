@@ -187,6 +187,26 @@ body {
     cursor: pointer;
 }
 
+#dlapk {
+    position: absolute;
+    top: 0%;
+    left: 100px;
+    margin: 10px;
+    width: auto;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#dlapk>p {
+    font-size: 2rem;
+    color: #2F509D;
+    font-weight: 500;
+    padding: 10px;
+    border-radius: 20px;
+}
+
 #connect {
     position: absolute;
     top: 0%;
