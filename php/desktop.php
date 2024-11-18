@@ -128,9 +128,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <span class="close">&times;</span>
             <form action="" method="POST">
                 <input name="FORMTYPE" type="hidden" value="SIGNUPFORM">
-                <input name="username" id="suusername" type="text" placeholder="Entrez votre pseudo">
-                <input name="password" id="supassword" type="password" placeholder="Entrez votre mot de passe">
-                <input name="cpassword" id="sucpassword" type="password" placeholder="Confirmez votre mot de passe">
+                <input name="username" id="suusername" type="text" placeholder="Entrez votre pseudo" maxlength="15">
+                <input name="password" id="supassword" type="password" placeholder="Entrez votre mot de passe" maxlength="15">
+                <input name="cpassword" id="sucpassword" type="password" placeholder="Confirmez votre mot de passe" maxlength="15">
                 <div style="display: flex; justify-content: center; width: 100%;">
                     <input id="signupBtn" type="submit" value="Confirmer">
                 </div>
@@ -143,8 +143,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <span class="close">&times;</span>
             <form action="" method="POST">
                 <input name="FORMTYPE" type="hidden" value="SIGNINFORM">
-                <input name="username" id="siusername" type="text" placeholder="Entrez votre pseudo">
-                <input name="password" id="sipassword" type="password" placeholder="Entrez votre mot de passe">
+                <input name="username" id="siusername" type="text" placeholder="Entrez votre pseudo" maxlength="15">
+                <input name="password" id="sipassword" type="password" placeholder="Entrez votre mot de passe" maxlength="15">
                 <div style="display: flex; justify-content: center; width: 100%;">
                     <input id="signinBtn" type="submit" value="Confirmer">
                 </div>
@@ -157,8 +157,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <span class="close">&times;</span>
             <form action="" method="POST">
                 <input name="FORMTYPE" type="hidden" value="CHANGEPASS">
-                <input name="password" id="chpassword" type="password" placeholder="Entrez votre nouveau mot de passe">
-                <input name="cpassword" id="chcpassword" type="password" placeholder="Confirmez votre nouveau mot de passe">
+                <input name="password" id="chpassword" type="password" placeholder="Entrez votre nouveau mot de passe" maxlength="15">
+                <input name="cpassword" id="chcpassword" type="password" placeholder="Confirmez votre nouveau mot de passe" maxlength="15">
                 <div style="display: flex; justify-content: center; width: 100%;">
                     <input id="changeBtn" type="submit" value="Changer le mot de passe">
                 </div>

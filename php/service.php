@@ -12,14 +12,14 @@ class Service {
     }
 
     // Example method to fetch data from the database
-    public function getData($query) {
+    public function getData($query, $params) {
         $stmt = $this->pdo->prepare($query);
-        $stmt->execute();
+        $stmt->execute($params);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function getAllScores() {
-        return $this->getData("SELECT name, score FROM $this->tableName ORDER BY score DESC;");
+        return $this->getData("SELECT name, score FROM ? ORDER BY score DESC;", [$this->tableName]);
     }
 
     public function getPassword($name) {
@@ -31,11 +31,10 @@ class Service {
 
     public function createAccount($name, $password) {
         if ($name != '' && !$this->checkIfNameExists($name)) {
-            $sql = "INSERT INTO $this->tableName (name, score, password) ";
-            $sql .= "VALUES ('". $name ."', 0, '";
-            $sql .= $password ."');";
+            $sql = "INSERT INTO ? (name, score, password) ";
+            $sql .= "VALUES (? , 0, ?);";
             $stmt = $this->pdo->prepare($sql);
-            return $stmt->execute();
+            return $stmt->execute([$this->tableName, $name, $password]);
         }
         return false;
     }
@@ -50,26 +49,28 @@ class Service {
     }
 
     public function modifyPassword($name, $password) {
-        $sql = "UPDATE $this->tableName ";
-        $sql .= "SET password = '$password' ";
-        $sql .= "WHERE name = '$name';";
+        $sql = "UPDATE ? ";
+        $sql .= "SET password = ? ";
+        $sql .= "WHERE name = ?;";
         $stmt = $this->pdo->prepare($sql);
-        return $stmt->execute();
+        return $stmt->execute([$this->tableName, $password, $name]);
     }
 
     public function update($data, $primaryKey = 'id') {
         // Prepare the SQL statement based on whether the primary key exists
 
         $sql = "";
+        $params = [];
 
         if ($this->checkIfNameExists($data["name"])) {
-            $row = $this->getData("SELECT score FROM $this->tableName WHERE name = '".$data["name"]."';");;
+            $row = $this->getData("SELECT score FROM ?WHERE name = ?;", [$this->tableName, $data["name"]]);;
             $score = $row[0]['score']; 
 
             if ($score < $data["score"]) {
-                $sql .= "UPDATE $this->tableName ";
-                $sql .= "SET score = " . strval($data["score"]) . " ";
-                $sql .= "WHERE name = '" . $data["name"] . "';";
+                $sql .= "UPDATE ? ";
+                $sql .= "SET score = ? ";
+                $sql .= "WHERE name = ?;";
+                $params = [$this->tableName, strval($data["score"]), $data["name"]];
             }
         }
 
@@ -77,7 +78,7 @@ class Service {
             // Prepare the PDO statement
             $stmt = $this->pdo->prepare($sql);
             // Execute the statement and return the result
-            $result = $stmt->execute();
+            $result = $stmt->execute($params);
             return $result;
         }
         else {
