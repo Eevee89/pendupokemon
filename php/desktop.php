@@ -5,53 +5,71 @@ if (isset($_SESSION["Username"])) {
     $classes = "connected";
 }
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
-    if ($_POST["FORMTYPE"] === "SIGNINFORM") {
-        $hash = $dbservice->getPassword($_POST["username"]);
-        if (password_verify($_POST["password"], $hash)) {
-            $_SESSION["Username"] = $_POST["username"];
-            $classes = "connected";
-            echo '<script>alert("Ravi de vous revoir '.$_SESSION["Username"].' .")</script>';
+try {
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        if ($_POST["FORMTYPE"] === "SIGNINFORM") {
+            if (!isStringValid($_POST["username"]) || !isStringValid($_POST["password"])) {
+                echo '<script>alert("Le nom d\'utilisateur ou mot de passe est trop long ou contient des caractères interdits.")</script>';
+            }
+            else {
+                $hash = $dbservice->getPassword($_POST["username"]);
+                if (password_verify($_POST["password"], $hash)) {
+                    $_SESSION["Username"] = $_POST["username"];
+                    $classes = "connected";
+                    echo '<script>alert("Ravi de vous revoir '.$_SESSION["Username"].' .")</script>';
+                }
+                else {
+                    echo '<script>alert("Le nom d\'utilisateur ou mot de passe est erroné.")</script>';
+                }
+            }
         }
-        else {
-            echo '<script>alert("Le nom d\'utilisateur ou mot de passe est erroné.")</script>';
+        else if ($_POST["FORMTYPE"] === "SIGNUPFORM") {
+            if (!isStringValid($_POST["username"]) || !isStringValid($_POST["password"]) || !isStringValid($_POST["cpassword"])) {
+                echo '<script>alert("Le nom d\'utilisateur ou mot de passe est trop long ou contient des caractères interdits.")</script>';
+            }
+            else {
+                if ($_POST["password"] === $_POST["cpassword"] ) {
+                    if ($dbservice->createAccount($_POST["username"], password_hash($_POST["password"], PASSWORD_BCRYPT))) {
+                        $_SESSION["Username"] = $_POST["username"];
+                        $classes = "connected";
+                        echo '<script>alert("Vous êtes inscrit, bienvenue.")</script>';
+                    }
+                    else {
+                        echo '<script>alert("Une erreur est survenue\nLe comtpe n\' pas été créé.")</script>';
+                    }
+                }
+                else {
+                    echo '<script>alert("La confirmation n\'est pas égale au mot de passe entré.")</script>';
+                }
+            }
         }
-    }
-    else if ($_POST["FORMTYPE"] === "SIGNUPFORM") {
-        if ($_POST["password"] === $_POST["cpassword"] ) {
-            if ($dbservice->createAccount($_POST["username"], password_hash($_POST["password"], PASSWORD_BCRYPT))) {
-                $_SESSION["Username"] = $_POST["username"];
+        else if ($_POST["FORMTYPE"] === "CHANGEPASS") {
+            if (!isStringValid($_POST["password"]) || !isStringValid($_POST["cpassword"])) {
+                echo '<script>alert("Le mot de passe est trop long ou contient des caractères interdits.")</script>';
+            }
+            else {
+                if ($_POST["password"] === $_POST["cpassword"] ) {
+                    if ($dbservice->modifyPassword($_SESSION["Username"], password_hash($_POST["password"], PASSWORD_BCRYPT))) {
+                        echo '<script>alert("Mot de passe modifié avec succès.")</script>';
+                    }
+                    else {
+                        echo '<script>alert("Une erreur est survenue\nMot de passe non modifié.")</script>';
+                    }
+                }
+                else {
+                    echo '<script>alert("La confirmation n\'est pas égale au mot de passe entré.")</script>';
+                }
                 $classes = "connected";
-                echo '<script>alert("Vous êtes inscrit, bienvenue.")</script>';
-            }
-            else {
-                echo '<script>alert("Une erreur est survenue\nLe comtpe n\' pas été créé.")</script>';
             }
         }
         else {
-            echo '<script>alert("La confirmation n\'est pas égale au mot de passe entré.")</script>';
+            unset($_SESSION["Username"]);
+            $classes = "";
         }
     }
-    else if ($_POST["FORMTYPE"] === "CHANGEPASS") {
-        if ($_POST["password"] === $_POST["cpassword"] ) {
-            if ($dbservice->modifyPassword($_SESSION["Username"], password_hash($_POST["password"], PASSWORD_BCRYPT))) {
-                echo '<script>alert("Mot de passe modifié avec succès.")</script>';
-            }
-            else {
-                echo '<script>alert("Une erreur est survenue\nMot de passe non modifié.")</script>';
-            }
-        }
-        else {
-            echo '<script>alert("La confirmation n\'est pas égale au mot de passe entré.")</script>';
-        }
-        $classes = "connected";
-    }
-    else {
-        unset($_SESSION["Username"]);
-        $classes = "";
-    }
-
+}
+catch (Exception $e) {
+    echo '<script>alert("Une erreur est survenue.\nImpossible de se connecter.")</script>';
 }
 ?>
 
@@ -128,9 +146,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <span class="close">&times;</span>
             <form action="" method="POST">
                 <input name="FORMTYPE" type="hidden" value="SIGNUPFORM">
-                <input name="username" id="suusername" type="text" placeholder="Entrez votre pseudo" maxlength="15">
-                <input name="password" id="supassword" type="password" placeholder="Entrez votre mot de passe" maxlength="15">
-                <input name="cpassword" id="sucpassword" type="password" placeholder="Confirmez votre mot de passe" maxlength="15">
+                <input name="username" id="suusername" type="text" placeholder=<?= "Entrez votre pseudo (max. $maxLength)" ?>>
+                <input name="password" id="supassword" type="password" placeholder=<?= "Entrez votre mot de passe (max. $maxLength)" ?>>
+                <input name="cpassword" id="sucpassword" type="password" placeholder=<?= "Confirmez votre mot de passe (max. $maxLength)" ?>>
                 <div style="display: flex; justify-content: center; width: 100%;">
                     <input id="signupBtn" type="submit" value="Confirmer">
                 </div>
@@ -143,8 +161,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <span class="close">&times;</span>
             <form action="" method="POST">
                 <input name="FORMTYPE" type="hidden" value="SIGNINFORM">
-                <input name="username" id="siusername" type="text" placeholder="Entrez votre pseudo" maxlength="15">
-                <input name="password" id="sipassword" type="password" placeholder="Entrez votre mot de passe" maxlength="15">
+                <input name="username" id="siusername" type="text" placeholder=<?= "Entrez votre pseudo (max. $maxLength)" ?>>
+                <input name="password" id="sipassword" type="password" placeholder=<?= "Entrez votre mot de passe (max. $maxLength)" ?>>
                 <div style="display: flex; justify-content: center; width: 100%;">
                     <input id="signinBtn" type="submit" value="Confirmer">
                 </div>
@@ -157,8 +175,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <span class="close">&times;</span>
             <form action="" method="POST">
                 <input name="FORMTYPE" type="hidden" value="CHANGEPASS">
-                <input name="password" id="chpassword" type="password" placeholder="Entrez votre nouveau mot de passe" maxlength="15">
-                <input name="cpassword" id="chcpassword" type="password" placeholder="Confirmez votre nouveau mot de passe" maxlength="15">
+                <input name="password" id="chpassword" type="password" placeholder=<?= "Entrez votre nouveau mot de passe (max. $maxLength)" ?>>
+                <input name="cpassword" id="chcpassword" type="password" placeholder=<?= "Confirmez votre nouveau mot de passe (max. $maxLength)" ?>>
                 <div style="display: flex; justify-content: center; width: 100%;">
                     <input id="changeBtn" type="submit" value="Changer le mot de passe">
                 </div>

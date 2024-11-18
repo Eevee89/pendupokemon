@@ -4,6 +4,23 @@ $userAgent = $_SERVER['HTTP_USER_AGENT'];
 $isMob = is_numeric(strpos(strtolower($_SERVER["HTTP_USER_AGENT"]), "mobile"));
 $isios = stripos($userAgent, 'iPhone') !== false || stripos($userAgent, 'iPad') !== false || stripos($userAgent, 'iPod') !== false;
 
+$maxLength = 15;
+
+function isStringValid($string) {
+    if (strlen($string) > $maxLength) {
+        return false;
+    }
+
+    $forbiddenChars = ["-", ";", "'", " ", ".", ",", "/", "\\", "\"", ":", "!", "?"];
+    foreach($forbiddenChars as $char) {
+        if (str_contains($string, $char)) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
 ?>
 
 <!DOCTYPE html>

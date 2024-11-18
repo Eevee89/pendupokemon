@@ -19,7 +19,7 @@ class Service {
     }
 
     public function getAllScores() {
-        return $this->getData("SELECT name, score FROM ? ORDER BY score DESC;", [$this->tableName]);
+        return $this->getData("SELECT name, score FROM $this->tableName ORDER BY score DESC;", []);
     }
 
     public function getPassword($name) {
@@ -31,10 +31,10 @@ class Service {
 
     public function createAccount($name, $password) {
         if ($name != '' && !$this->checkIfNameExists($name)) {
-            $sql = "INSERT INTO ? (name, score, password) ";
+            $sql = "INSERT INTO $this->tableName (name, score, password) ";
             $sql .= "VALUES (? , 0, ?);";
             $stmt = $this->pdo->prepare($sql);
-            return $stmt->execute([$this->tableName, $name, $password]);
+            return $stmt->execute([$name, $password]);
         }
         return false;
     }
@@ -49,11 +49,11 @@ class Service {
     }
 
     public function modifyPassword($name, $password) {
-        $sql = "UPDATE ? ";
+        $sql = "UPDATE $this->tableName ";
         $sql .= "SET password = ? ";
         $sql .= "WHERE name = ?;";
         $stmt = $this->pdo->prepare($sql);
-        return $stmt->execute([$this->tableName, $password, $name]);
+        return $stmt->execute([$password, $name]);
     }
 
     public function update($data, $primaryKey = 'id') {
@@ -63,14 +63,14 @@ class Service {
         $params = [];
 
         if ($this->checkIfNameExists($data["name"])) {
-            $row = $this->getData("SELECT score FROM ?WHERE name = ?;", [$this->tableName, $data["name"]]);;
+            $row = $this->getData("SELECT score FROM $this->tableName WHERE name = ?;", [$data["name"]]);;
             $score = $row[0]['score']; 
 
             if ($score < $data["score"]) {
-                $sql .= "UPDATE ? ";
+                $sql .= "UPDATE $this->tableName ";
                 $sql .= "SET score = ? ";
                 $sql .= "WHERE name = ?;";
-                $params = [$this->tableName, strval($data["score"]), $data["name"]];
+                $params = [strval($data["score"]), $data["name"]];
             }
         }
 
