@@ -9,7 +9,7 @@ try {
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($_POST["FORMTYPE"] === "SIGNINFORM") {
             if (!isStringValid($_POST["username"]) || !isStringValid($_POST["password"])) {
-                echo '<script>alert("Le nom d\'utilisateur ou mot de passe est trop long ou contient des caractères interdits.")</script>';
+                echo '<script>alert("Le nom d\'utilisateur ou mot de passe est trop long ou contient des caractères interdits.")</script>';  
             }
             else {
                 $hash = $dbservice->getPassword($_POST["username"]);
@@ -146,9 +146,9 @@ catch (Exception $e) {
             <span class="close">&times;</span>
             <form action="" method="POST">
                 <input name="FORMTYPE" type="hidden" value="SIGNUPFORM">
-                <input name="username" id="suusername" type="text" placeholder=<?= "Entrez votre pseudo (max. $maxLength)" ?>>
-                <input name="password" id="supassword" type="password" placeholder=<?= "Entrez votre mot de passe (max. $maxLength)" ?>>
-                <input name="cpassword" id="sucpassword" type="password" placeholder=<?= "Confirmez votre mot de passe (max. $maxLength)" ?>>
+                <input name="username" id="suusername" type="text" placeholder="Entrez votre pseudo (max. 15)">
+                <input name="password" id="supassword" type="password" placeholder="Entrez votre mot de passe (max. 15)">
+                <input name="cpassword" id="sucpassword" type="password" placeholder="Confirmez votre mot de passe (max. 15)">
                 <div style="display: flex; justify-content: center; width: 100%;">
                     <input id="signupBtn" type="submit" value="Confirmer">
                 </div>
@@ -161,8 +161,8 @@ catch (Exception $e) {
             <span class="close">&times;</span>
             <form action="" method="POST">
                 <input name="FORMTYPE" type="hidden" value="SIGNINFORM">
-                <input name="username" id="siusername" type="text" placeholder=<?= "Entrez votre pseudo (max. $maxLength)" ?>>
-                <input name="password" id="sipassword" type="password" placeholder=<?= "Entrez votre mot de passe (max. $maxLength)" ?>>
+                <input name="username" id="siusername" type="text" placeholder="Entrez votre pseudo (max. 15)">
+                <input name="password" id="sipassword" type="password" placeholder="Entrez votre mot de passe (max. 15)">
                 <div style="display: flex; justify-content: center; width: 100%;">
                     <input id="signinBtn" type="submit" value="Confirmer">
                 </div>
@@ -175,8 +175,8 @@ catch (Exception $e) {
             <span class="close">&times;</span>
             <form action="" method="POST">
                 <input name="FORMTYPE" type="hidden" value="CHANGEPASS">
-                <input name="password" id="chpassword" type="password" placeholder=<?= "Entrez votre nouveau mot de passe (max. $maxLength)" ?>>
-                <input name="cpassword" id="chcpassword" type="password" placeholder=<?= "Confirmez votre nouveau mot de passe (max. $maxLength)" ?>>
+                <input name="password" id="chpassword" type="password" placeholder="Entrez votre nouveau mot de passe (max. 15)">
+                <input name="cpassword" id="chcpassword" type="password" placeholder="Confirmez votre nouveau mot de passe (max. 15)">
                 <div style="display: flex; justify-content: center; width: 100%;">
                     <input id="changeBtn" type="submit" value="Changer le mot de passe">
                 </div>

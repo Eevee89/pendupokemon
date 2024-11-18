@@ -4,10 +4,8 @@ $userAgent = $_SERVER['HTTP_USER_AGENT'];
 $isMob = is_numeric(strpos(strtolower($_SERVER["HTTP_USER_AGENT"]), "mobile"));
 $isios = stripos($userAgent, 'iPhone') !== false || stripos($userAgent, 'iPad') !== false || stripos($userAgent, 'iPod') !== false;
 
-$maxLength = 15;
-
 function isStringValid($string) {
-    if (strlen($string) > $maxLength) {
+    if (strlen($string) > 15) {
         return false;
     }
 
