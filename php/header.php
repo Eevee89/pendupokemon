@@ -9,7 +9,7 @@ function isStringValid($string) {
         return false;
     }
 
-    $forbiddenChars = ["-", ";", "'", " ", ".", ",", "/", "\\", "\"", ":", "!", "?"];
+    $forbiddenChars = ["-", ";", "'", " ", ".", ",", "/", "\\", "\"", ":", "!", "?", "<", ">"];
     foreach($forbiddenChars as $char) {
         if (str_contains($string, $char)) {
             return false;
