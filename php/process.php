@@ -65,6 +65,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($_SESSION["Errors"] >= 10) {
                 $res["answer"] = strtoupper($_SESSION["Pokemon"]["Nom"]);
                 $res["pokedex"] = $_SESSION["Pokemon"]["Pokedex"];
+                $_SESSION["Score"] = 0;
+                $res["score"] = 0;
             }
         }
 

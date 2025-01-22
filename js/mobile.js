@@ -4,6 +4,7 @@ $(document).ready(function () {
     $("#hints").hide();
     $("#type2").attr("src", "");
     $("#type2").hide();
+    $("#answer").hide();
     let gens = [];
     for(i=1; i<=9; i++) {
         if ($("#"+i).hasClass("success")) {
@@ -112,7 +113,8 @@ $(document).ready(function () {
                 if (data["found"]) {
                     $(".character").css("background-color", "#0F0");
                     $("#answer").attr("src", "https://www.pokebip.com/pokedex-images/300/"+data["pokedex"]+".png?v=ev-blueberry");
-                    end = true;
+                    $("#tiles").hide();
+                    $("#answer").show();
                     $("#hint").addClass("hint");
                     $("#score").text("Score : "+data["score"]);
                 }
@@ -124,10 +126,14 @@ $(document).ready(function () {
                     }
                     $("#hint").addClass("hint");
                     $("#answer").attr("src", "https://www.pokebip.com/pokedex-images/300/"+data["pokedex"]+".png?v=ev-blueberry");
-                    end = true;
+                    $("#tiles").hide();
+                    $("#answer").show();
                     $("#score").text("Score : 0");
                 }
             });
+            
+            $("#letters").text($("#letters").text()+" "+String.fromCharCode(code));
+
             letters = $("#letters").text().split(":")[1];
             for(i=65; i<91; i++) {
                 if (letters.search(String.fromCharCode(i)) === -1) {
