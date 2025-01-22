@@ -1,22 +1,4 @@
-function getRandomPokemon(gens) {
-    let filtered = [];
-    pokemons.forEach((poke) => {
-        if (gens.includes(poke["Generation"])) {
-            filtered.push(poke);
-        }
-    });
-    let index = Math.floor(Math.random() * filtered.length);
-    return filtered[index];
-}
-
-let poke = "";
-let nom = "";
-let pokedex = -1;
-let types = [];
-let found = 0;
-let errors = 0;
 let end = false;
-let score = 0;
 
 $(document).ready(function () {
     $("#hint").removeClass("hint");
@@ -31,20 +13,18 @@ $(document).ready(function () {
             gens.push(i);
         }
     }
-    poke = getRandomPokemon(gens);
-    pokedex = poke["Pokedex"];
-    nom = poke["Nom"].toUpperCase();
-    types = [];
-    types.push(poke["Type1"].toLowerCase());
-    if ("Type2" in poke) {
-        types.push(poke["Type2"].toLowerCase());
-    }
-    for(i=0; i<nom.length; i++) {
-        $("#row").append($("<div'></div>").addClass("character").append("<p></p>").text("_"));
-    } 
-    $(".character").css("width", 90/nom.length + "%");
-    found = 0;
-    errors = 0;
+    $.ajax({
+        url: "php/process.php",
+        type: "POST",
+        data: { SENDER: "NEWGAME", GENS: gens, REPLAY: 0 }
+    })
+    .done((data) => {
+        for(i=0; i<data["guess"].length; i++) {
+            $("#row").append($("<div'></div>").addClass("character").append("<p></p>").text("_"));
+        } 
+        $(".character").css("width", 90/data["guess"].length + "%");
+    });
+
     end = false;
 
     $("#replay").click(() => {
@@ -61,22 +41,21 @@ $(document).ready(function () {
                 gens.push(i);
             }
         }
-        poke = getRandomPokemon(gens);
-        pokedex = poke["Pokedex"];
-        nom = poke["Nom"].toUpperCase();
-        types = [];
-        types.push(poke["Type1"].toLowerCase());
-        if ("Type2" in poke) {
-            types.push(poke["Type2"].toLowerCase());
-        }
-        for(i=0; i<nom.length; i++) {
-            $("#row").append($("<div'></div>").addClass("character").append("<p></p>").text("_"));
-        } 
-        $(".character").css("width", 90/nom.length + "%");
+
+        $.ajax({
+            url: "php/process.php",
+            type: "POST",
+            data: { SENDER: "NEWGAME", GENS: gens, REPLAY: 1 }
+        })
+        .done((data) => {
+            for(i=0; i<data["guess"].length; i++) {
+                $("#row").append($("<div'></div>").addClass("character").append("<p></p>").text("_"));
+            } 
+            $(".character").css("width", 90/data["guess"].length + "%");
+        });
+
         $("#letters").text("Lettres :");
         $("#errors").text("Erreurs : 0/10");
-        found = 0;
-        errors = 0;
         end = false;
     });
 
@@ -118,12 +97,19 @@ $(document).ready(function () {
 
     $("#hint").click(() => {
         $("#hint").addClass("hint");
-        $("#type1").attr("src", "images/typesIcons/"+types[0]+".png");
-        $("#hints").show();
-        if (types.length > 1) {
-            $("#type2").attr("src", "images/typesIcons/"+types[1]+".png");
-            $("#type2").show();
-        }
+        $.ajax({
+            url: "php/process.php",
+            type: "POST",
+            data: { SENDER: "HINT" }
+        })
+        .done((data) => {
+            $("#type1").attr("src", "images/typesIcons/"+data["hint"][0]+".png");
+            $("#hints").show();
+            if (data["hint"].length > 1) {
+                $("#type2").attr("src", "images/typesIcons/"+data["hint"][1]+".png");
+                $("#type2").show();
+            }
+        });
     });
 
     $("#signup").click(() => {
@@ -155,59 +141,42 @@ $(document).keydown(function(e) {
     let isConnectModalClosed = $("#signupModal").css("display") === "none" && $("#signinModal").css("display") === "none";
     let isScoreModalClosed = $("#scoreModal").css("display") === "none";
     let isAccountModalClosed = $("#accountModal").css("display") === "none";
+
     if ( isLetterOrSpace && hasNotBeenTyped && !end && isConnectModalClosed && isScoreModalClosed && isAccountModalClosed) {
-        if (nom.search(String.fromCharCode(code)) === -1) {
-            errors += 1;
-            $("#errors").text("Erreurs : "+errors+"/10");
-        }
-        else {
-            for(i=0; i<nom.length; i++) {
-                if (nom[i] == String.fromCharCode(code)) {
-                    $("#row").children()[i].innerHTML = "<p>"+ nom[i] +"</p>";
-                    found += 1;
+        $.ajax({
+            url: "php/process.php",
+            type: "POST",
+            data: { SENDER: "KEYDOWN", "KEYDOWN": String.fromCharCode(code) }
+        })
+        .done((data) => {
+            if (data["message"] == "Char not in name") {
+                $("#errors").text("Erreurs : "+data["nbErrors"]+"/10");
+            } else {
+                for(i=0; i<data["guess"].length; i++) {
+                    $("#row").children()[i].innerHTML = "<p>"+ data["guess"][i] +"</p>";
                 }
             }
-        }
-        $("#letters").text($("#letters").text()+" "+String.fromCharCode(code));
-    }
-    if (found >= nom.length) {
-        $(".character").css("background-color", "#0F0");
-        $("#answer").attr("src", "https://www.pokebip.com/pokedex-images/300/"+pokedex+".png?v=ev-blueberry");
-        toAdd = 10-errors;
-        if ($("#hint").hasClass("hint")) {
-            toAdd -= 2;
-        }
-        if (toAdd < 0) {
-            toAdd = 0;
-        }
-        score += toAdd;
-        errors = 0;
-        found = 0;
-        end = true;
-        $("#hint").addClass("hint");
-        $("#score").text("Score : "+score);
-        let username = $("#session_user").text().split(' ')[1];
-        let tmp = Number(score).toString(2);
-        toSend = (tmp+"1").split("").reverse().join("");
-        toSend = parseInt(toSend, 2);
-        $.ajax({
-            url: "php/updateScores.php",
-            type: "POST",
-            data: { name: username, score: toSend }
-        });
-    }
-    if (errors >= 10) {
-        $(".character").css("background-color", "#F00");
-        for(i=0; i<nom.length; i++) {
-            $("#row").children()[i].innerHTML = "<p>"+ nom[i] +"</p>";
-        }
-        $("#hint").addClass("hint");
-        $("#answer").attr("src", "https://www.pokebip.com/pokedex-images/300/"+pokedex+".png?v=ev-blueberry");
 
-        errors = 0;
-        found = 0;
-        score = 0;
-        $("#score").text("Score : "+score);
-        end = true;
+            if (data["found"]) {
+                $(".character").css("background-color", "#0F0");
+                $("#answer").attr("src", "https://www.pokebip.com/pokedex-images/300/"+data["pokedex"]+".png?v=ev-blueberry");
+                end = true;
+                $("#hint").addClass("hint");
+                $("#score").text("Score : "+data["score"]);
+            }
+
+            if (data["nbErrors"] >= 10) {
+                $(".character").css("background-color", "#F00");
+                for(i=0; i<data["answer"].length; i++) {
+                    $("#row").children()[i].innerHTML = "<p>"+ data["answer"][i] +"</p>";
+                }
+                $("#hint").addClass("hint");
+                $("#answer").attr("src", "https://www.pokebip.com/pokedex-images/300/"+data["pokedex"]+".png?v=ev-blueberry");
+                end = true;
+                $("#score").text("Score : 0");
+            }
+        });
+
+        $("#letters").text($("#letters").text()+" "+String.fromCharCode(code));
     }
 });
