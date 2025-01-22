@@ -19,6 +19,29 @@ function isStringValid($string) {
     return true;
 }
 
+$json = file_get_contents('pokemons.json'); 
+
+if ($json === false) {
+    die('Error reading the JSON file');
+}
+
+$pokemons = json_decode($json, true); 
+
+if ($pokemons === null) {
+    die('Error decoding the JSON file');
+}
+
+$id = random_int(0, count($pokemons));
+$_SESSION["Pokemon"] = $pokemons[$id];
+
+$_SESSION["Score"] = 0;
+$_SESSION["Errors"] = 0;
+$_SESSION["Gens"] = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+$tmp = "";
+for ($i = 0; $i < strlen($_SESSION["Pokemon"]["Nom"]); $i++) {
+    $tmp .= "_";
+}
+$_SESSION["Guess"] = $tmp;
 ?>
 
 <!DOCTYPE html>
@@ -43,6 +66,5 @@ function isStringValid($string) {
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
-    <script src="js/pokemons.js"></script>
 </head>
 </html>
