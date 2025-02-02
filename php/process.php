@@ -76,9 +76,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     else if ($_POST["SENDER"] === "HINT") {
-        $res["hint"] = [$_SESSION["Pokemon"]["Type1"]];
+        $res["hint"] = [strtolower($_SESSION["Pokemon"]["Type1"])];
         if (isset($_SESSION["Pokemon"]["Type2"])) {
-            $res["hint"] = [$_SESSION["Pokemon"]["Type1"], $_SESSION["Pokemon"]["Type2"]];
+            $res["hint"] = [strtolower($_SESSION["Pokemon"]["Type1"]), strtolower($_SESSION["Pokemon"]["Type2"])];
         }
         $_SESSION["Score"] -= 2;
     }
