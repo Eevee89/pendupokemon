@@ -123,7 +123,7 @@ p {
     font-size: 3rem;
     text-align: center;
     vertical-align: center;
-    color: #111;
+    color: #2F509D;
 }
 
 .character {
@@ -160,18 +160,22 @@ p {
     align-items: center;
     height: 60%;
     cursor: pointer;
+    border: 2px solid;
 }
 
 .gen>p {
     font-size: 2rem;
+    color: #FFF;
 }
 
 .success {
-    background-color: #0F0;
+    background-color: #55F;
+    border-color: #00F;
 }
 
 .failed {
-    background-color: #F00;
+    background-color: #F55;
+    border-color: #F00;
 }
 
 /* Modals CSS */
