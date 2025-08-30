@@ -85,15 +85,17 @@ catch (Exception $e) {
             <p>Télécharger l'APK</p>
         </div>
     <?php endif; ?>
-    <div id="connect" class=<?=$classes?>>
-        <?php if(isset($_SESSION["Username"])): ?>
-            <p id="myaccount">Mon compte</p>
-            <p id="session_user" hidden>Bienvenue <?=$_SESSION["Username"]?></p>
-        <?php else: ?>
-            <p id="signup">S'inscrire</p>
-            <p id="signin">Se connecter</p>
-        <?php endif; ?>
-    </div>
+    <?php if ($dbservice->isConnOpen()) :?>
+        <div id="connect" class=<?=$classes?>>
+            <?php if(isset($_SESSION["Username"])): ?>
+                <p id="myaccount">Mon compte</p>
+                <p id="session_user" hidden>Bienvenue <?=$_SESSION["Username"]?></p>
+            <?php else: ?>
+                <p id="signup">S'inscrire</p>
+                <p id="signin">Se connecter</p>
+            <?php endif; ?>
+        </div>
+    <?php endif; ?>
     <div id="pokemon">
         <p id="title">Pendu</p>
         <img id="pokemon_logo" src="images/pokemon_logo.png">

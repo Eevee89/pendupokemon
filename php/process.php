@@ -46,11 +46,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     ];
             
                     $dbservice = new Service();
-                    $result = $dbservice->update($data);
+
+                    if ($dbservice->isConnOpen()) {
+                        $result = $dbservice->update($data);
             
-                    if (!$result) {
-                        $res["code"] = 500;
-                        $res["message"] = "Une erreur interne est survenue";
+                        if (!$result) {
+                            $res["code"] = 500;
+                            $res["message"] = "Une erreur interne est survenue";
+                        }
                     }
                 }
                 else {

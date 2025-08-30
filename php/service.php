@@ -3,12 +3,23 @@
 class Service {
     private $pdo;
     public $tableName = "tb_hanging_scores";
+    private $open = false;
 
     public function __construct() {
         $env = parse_ini_file('.env');
-        $tmp = new PDO("mysql:host=".$env["DATABASE_HOST"].";dbname=".$env["DATABASE_NAME"], $env["DATABASE_USER"], $env["DATABASE_PASS"]);
-        $tmp->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, false);
-        $this->pdo = $tmp;
+        try {
+            $tmp = new PDO("mysql:host=".$env["DATABASE_HOST"].";dbname=".$env["DATABASE_NAME"], $env["DATABASE_USER"], $env["DATABASE_PASS"]);
+            $tmp->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, false);
+            $this->pdo = $tmp;
+
+            $this->open = true;
+        } catch (\Throwable $e) {
+            $this->open = false;
+        }
+    }
+
+    public function isConnOpen() {
+        return $this->open;
     }
 
     // Example method to fetch data from the database
