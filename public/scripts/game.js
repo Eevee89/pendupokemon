@@ -7,7 +7,7 @@ $(document).keydown(function(e) {
 
     if (isLetterOrSpace && hasNotBeenTyped && !isModalOpen && !answerReveled) {
         $.ajax({
-            url: "http://symfony-pokemon/guess/"+String.fromCharCode(code),
+            url: guessUrl.replace("__char__", String.fromCharCode(code)),
             type: "GET",
         })
         .done((data) => {

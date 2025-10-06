@@ -11,6 +11,7 @@
 
     const loginUrl = "{{ path("app_login") }}";
     const logoutUrl = "{{ path("app_logout") }}";
+    const guessUrl = "{{ path("app_guess", {'char': '__char__'}) }}";
     const isConnected = "{{ connected ? '1' : '0' }}" === '1';
 
     let isModalOpen = false;

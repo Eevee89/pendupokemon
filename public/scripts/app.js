@@ -1,5 +1,4 @@
 $(document).ready(function () {
-    console.log($(window).width());
     if ($(window).width() < 780) {
         $("#desktopView").hide();
         $("#mobileView").show();
@@ -110,7 +109,7 @@ $(document).ready(function () {
     $("#hintBtn").click(() => {
         if (!answerReveled) {
             $.ajax({
-                url: "http://symfony-pokemon/hint",
+                url: urls.hint,
                 type: 'GET',
                 success: function(response) {
                     const type1 = response["type1"];
@@ -147,7 +146,7 @@ $(document).ready(function () {
         const answer = $("#answer");
         answer.empty();
         $.ajax({
-            url: "http://symfony-pokemon/replay",
+            url: urls.replay,
             type: 'GET',
             data: {
                 "generations": activesGens.join(',')
