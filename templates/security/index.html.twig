@@ -1,0 +1,46 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+<div class="row justify-content-center">
+    <div class="col-6 mt-3">
+        <form method="post" action="{{ path('app_login') }}">
+            <h1 class="h3 mb-3 font-weight-normal">{{ 'title'|trans({}, 'login')}}</h1>
+            
+            <div class="mb-3">
+                <label for="inputUsername">{{ 'fields.username'|trans({}, 'login')}}</label>
+                <input type="text" value="{{ last_username }}" name="_username" id="inputUsername" class="form-control" autocomplete="username" required autofocus>
+            </div>
+            
+            <div class="mb-3">
+                <label for="inputPassword">{{ 'fields.password'|trans({}, 'login')}}</label>
+                <input type="password" name="_password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+            </div>
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+            <div class="row justify-content-around">
+                <div class="col-2">
+                    <button id="signInSubmit" class="btn btn-lg btn-primary" type="submit">
+                        {{ 'buttons.ok'|trans({}, 'login')}}
+                    </button>
+                </div>
+                <div class="col-2">
+                    <button class="btn btn-lg btn-secondary" type="button" onClick="window.location.replace('/');">
+                        {{ 'buttons.cancel'|trans({}, 'login')}}
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascript %}
+<script>
+    localStorage["username"] = "";
+    $(document).ready(() => {
+        $("#signInSubmit").click(() => {
+            localStorage["username"] = $("#inputUsername").val();
+        });
+    });
+</script>
+{% endblock %}

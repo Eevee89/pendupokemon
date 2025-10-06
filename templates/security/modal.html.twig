@@ -1,0 +1,27 @@
+{% if error %}
+    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+{% endif %}
+
+<div class="row justify-content-center">
+    <div class="col-12 mt-3">
+        <form method="post" action="{{ path('app_login') }}">
+            <div class="mb-3">
+                <label for="inputUsername">{{ 'fields.username'|trans({}, 'login')}}</label>
+                <input type="text" value="{{ last_username }}" name="_username" id="inputUsername" class="form-control" autocomplete="username" required autofocus>
+            </div>
+            
+            <div class="mb-3">
+                <label for="inputPassword">{{ 'fields.password'|trans({}, 'login')}}</label>
+                <input type="password" name="_password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+            </div>
+            
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+            <div class="col-12 d-flex flex-row-reverse">
+                <button id="signInSubmit" class="btn btn-lg btn-primary" type="submit">
+                    {{ 'buttons.ok'|trans({}, 'login')}}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

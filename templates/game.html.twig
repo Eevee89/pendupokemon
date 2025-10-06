@@ -1,0 +1,117 @@
+{% extends "base.html.twig" %}
+
+{% block javascript %}
+<script>
+    const buttonsText = {
+        "scoreBtn": "{{ 'button'|trans({}, 'scores')}}",
+        "signUpBtn": "{{ 'modal.tabs.signup'|trans({}, 'sign')}}",
+        "signInBtn": "{{ 'modal.tabs.signin'|trans({}, 'sign')}}",
+        "disconnectBtn": "{{ 'modal.tabs.disconnect'|trans({}, 'sign')}}"
+    };
+
+    const loginUrl = "{{ path("app_login") }}";
+    const logoutUrl = "{{ path("app_logout") }}";
+    const isConnected = "{{ connected ? '1' : '0' }}" === '1';
+
+    let isModalOpen = false;
+    let answerReveled = false;
+    let activesGens = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
+</script>
+<script src="scripts/game.js"></script>
+{% endblock %}
+
+{% block body %}
+<div id="topbar" class="row">
+    <div class="col-md-3 mt-1 d-flex">
+        <ul>
+            <li id="scoreBtn"></li>
+            <li id="replayBtn"></li>
+            <li id="hintBtn"></li>
+        </ul>
+    </div>
+    <div class="col-md-1"></div>
+    <div class="col-md-4 d-flex justify-content-center align-items-center pb-3">
+        <span class="title-span">Pendu</span>
+        <img src="images/pokemon_logo.png"/>
+    </div>
+    <div class="col-md-1"></div>
+    <div class="col-md-3 mt-1 d-flex justify-content-end">
+        <ul style="padding-left: 0; padding-right: 2rem">
+            {% if (not connected) %}
+                <li id="signUpBtn"></li>
+                <li id="signInBtn"></li>
+            {% else %}
+                <li id="disconnectBtn"></li>
+                <span class="title-span">{{ username }}</span>
+            {% endif %}
+        </ul>
+    </div>
+</div>
+
+<div class="row d-flex justify-content-around align-items-center mt-3">
+    <div class="col-3">
+        <span class="title-span">Générations actives :</span>
+    </div>
+    <div class="col-8">
+        <div class="row d-flex justify-content-around">
+            {% set tooltips = [
+                "",
+                "Pokemon Rouge, Vert, Bleu et Jaune", 
+                "Pokemon Or et Argent",
+                "Pokemon Rubis et Saphir",
+                "Pokemon Diamant, Perle, Platine",
+                "Pokemon Noir et Blanc",
+                "Pokemon X et Y", 
+                "Pokemon Soleil et Lune",
+                "Pokemon Epée et Bouclier",
+                "Pokemon Ecarlate et Violet"
+            ] %}
+            {% for i in 1..9 %}
+                <div class="gen success" data-toggle="tooltip" title="{{ tooltips[i] }}">
+                    <span class="title">{{ i }}</span>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<hr><hr><hr><hr>
+
+<div id="answer" class="row d-flex justify-content-around align-items-center mt-3" style="padding: 0 10px;">
+    {% for i in 1..letters %}
+        <div class="letter">
+            <span class="title">_</span>
+        </div>
+    {% endfor %}
+</div>
+
+<div class="row flex-column flex-sm-row justify-content-around mt-3" style="padding: 0 10px;">
+    <div class="col-6">
+        <span id="scoreLabel" class="title-span">Score : 0</span>
+    </div>
+    <div class="col-6">
+        <span id="errorLabel" class="title-span">Erreurs : 0/10</span>
+    </div>
+    <div class="col-12 mt-3">
+        <span id="lettersLabel" class="title-span">Jouées : </span>
+    </div>
+</div>
+
+<div class="row d-flex justify-content-around mt-3">
+    <div class="col-6">
+        <div id="poketypes" class="row d-flex justify-content-around mt-3">
+        </div>
+    </div>
+</div>
+
+<div class="row d-flex justify-content-around mt-3">
+    <div class="col-6">
+        <div class="row d-flex justify-content-center">
+            <img id="answerImg" src="" draggable="false"/>
+        </div>
+    </div>
+</div>
+
+{% include './score.html.twig' %}
+{% include './sign.html.twig' %}
+{% endblock %}

@@ -1,0 +1,22 @@
+modal:
+  title: S'inscrire / Se connecter
+  tabs:
+    signup: S'inscrire
+    signin: Se connecter
+    disconnect: Déconnexion
+  submit: Confirmer
+  username: Nom d'utilisateur
+  password: Mot de passe
+  passwordConf: Confirmer mot de passe
+  formControlOK: OK
+  formControlKO: Veuillez renseigner cette donnée
+  passwordKO: Les mots de passe sont différents
+swal:
+  success:
+    title: Bienvenue, %username% !
+    text: Vous pouvez désormais enregistrer votre score
+  error:
+    title: Une erreur est survenue
+    missingParams: Il manque une donnée obligatoire
+    usernameTaken: Le nom d'utilisateur est déjà pris
+    servorError: Veuillez réessayer plus tard

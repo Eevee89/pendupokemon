@@ -1,0 +1,31 @@
+<div id="scoreModal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{ 'modal.title'|trans({}, 'scores')}}</h5>
+            </div>
+            <div class="modal-body">
+                <table id="scores" class="display">
+                    <thead>
+                        <tr>
+                            <th>{{ 'dataTable.columns.player'|trans({}, 'scores')}}</th>
+                            <th>{{ 'dataTable.columns.score'|trans({}, 'scores')}}</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+const translations = {
+    layout: {
+        length: "{{ 'dataTable.layout.length'|trans({}, 'scores')}}",
+        search: "{{ 'dataTable.layout.search'|trans({}, 'scores')}}",
+        showing: "{{ 'dataTable.layout.showing'|trans({}, 'scores')}}"
+    }
+};
+
+const source = "{{ path("app_scores") }}";
+</script>
+<script src="scripts/scores.js"></script>

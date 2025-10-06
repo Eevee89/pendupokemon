@@ -1,0 +1,11 @@
+button: Scores
+modal:
+  title: Liste des score
+dataTable:
+  layout:
+    length: _MENU_ entrées par pages
+    search: Rechercher:
+    showing: Affichage de _START_ à _END_ sur un de _TOTAL_
+  columns:
+    player: Joueur
+    score: Score
