@@ -70,7 +70,6 @@ $(document).ready(() => {
                     $("#signUpBtn").hide();
                     $("#signInBtn").hide();
                     $("#signModal").modal("hide");
-                    //window.location.reload();
                 } else {
                     errorSwal.text = errorTexts[response.responseJSON.message];
                 }
