@@ -63,17 +63,18 @@ $(document).ready(() => {
                 window.location.reload();
             })
             .fail(function (response) {
-                errorSwal.text = errorTexts[response.responseJSON.message];
-                swal(errorSwal);
-
                 if (response.status >= 500) {
+                    errorSwal.text = response.responseJSON.message;
                     form.removeClass('was-validated');
                     form[0].reset();
                     $("#signUpBtn").hide();
                     $("#signInBtn").hide();
                     $("#signModal").modal("hide");
-                    window.location.reload();
+                    //window.location.reload();
+                } else {
+                    errorSwal.text = errorTexts[response.responseJSON.message];
                 }
+                swal(errorSwal);
             });
         }
     });

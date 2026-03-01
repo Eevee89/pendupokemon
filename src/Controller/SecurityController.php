@@ -63,7 +63,7 @@ class SecurityController extends AbstractController
             return new JsonResponse();
         } catch (\Throwable $e) {
             return new JsonResponse([
-                "message" => "serverError"
+                "message" => $e->getMessage()
             ], 500);
         }
     }
