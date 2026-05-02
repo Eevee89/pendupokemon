@@ -16,26 +16,15 @@ class PokemonRepository extends ServiceEntityRepository
         parent::__construct($registry, Pokemon::class);
     }
 
-    public function getRandomPokemon(?array $gens = null): ?Pokemon
+    public function getRandomPokemon(array $gens = [1, 2, 3, 4, 5, 6, 7, 8, 9]): ?Pokemon
     {
-        $ids = $this->createQueryBuilder('p')
-            ->select('p.id');
-        
-        if (null !== $gens && count($gens) > 0) {
-            $ids = $ids->where("p.generation IN (:gens)")
-                ->setParameter("gens", $gens);
-        }
-        $ids = $ids->getQuery()
-            ->getScalarResult();
-
-        if (0 === $ids) {
-            return null;
-        }
-
-        $ids = array_column($ids, "id");
-
-        $offset = mt_rand(0, count($ids) - 1);
-
-        return $this->find($ids[$offset]);
+        return $this->createQueryBuilder('p')
+            ->where('p.generation IN (:gens)')
+            ->setParameter('gens', $gens)
+            ->addSelect('RAND() as HIDDEN rand')
+            ->orderBy('rand')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 }
