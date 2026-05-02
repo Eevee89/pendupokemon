@@ -43,21 +43,26 @@ class DiscordBotController extends AbstractController
             $command = $data['data']['name'];
             $discordId = $data['member']['user']['id'] ?? $data['user']['id'];
 
-            set_time_limit(60);
+            $url = "https://discord.com/api/v10/webhooks/{$appId}/{$token}/messages/@original";
+            $httpClient->request('PATCH', $url, [
+                'json' => ['content' => 'Hello World :sunglasses:']
+            ]);
+
+            /*set_time_limit(60);
             ini_set('memory_limit', '256M');
 
             $botManager = $this->container->get(DiscordBotManager::class);
 
-            /*$content = match ($command) {
+            $content = match ($command) {
                 'pendu' => $botManager->handleStartGame($discordId),
                 'deviner' => $botManager->handleGuess($discordId, $data['data']['options'][0]['value']),
                 default => ['content' => "Commande inconnue."]
-            };*/
+            };
 
             $url = "https://discord.com/api/v10/webhooks/{$appId}/{$token}/messages/@original";
             $httpClient->request('PATCH', $url, [
                 'json' => $botManager->greet()
-            ]);
+            ]);*/
         }
 
         return new JsonResponse();
