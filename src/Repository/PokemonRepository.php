@@ -18,13 +18,23 @@ class PokemonRepository extends ServiceEntityRepository
 
     public function getRandomPokemon(array $gens = [1, 2, 3, 4, 5, 6, 7, 8, 9]): ?Pokemon
     {
-        return $this->createQueryBuilder('p')
-            ->where('p.generation IN (:gens)')
-            ->setParameter('gens', $gens)
-            ->addSelect('RAND() as HIDDEN rand')
-            ->orderBy('rand')
-            ->setMaxResults(1)
-            ->getQuery()
-            ->getOneOrNullResult();
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = '
+        SELECT id FROM pokemon 
+        WHERE generation IN (:gens) 
+        ORDER BY RAND() 
+        LIMIT 1
+    ';
+
+        $resultSet = $conn->executeQuery($sql, [
+            'gens' => $gens
+        ], [
+            'gens' => \Doctrine\DBAL\ArrayParameterType::INTEGER
+        ]);
+
+        $id = $resultSet->fetchOne();
+
+        return $id ? $this->find($id) : null;
     }
 }
