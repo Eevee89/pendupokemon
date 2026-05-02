@@ -40,12 +40,7 @@ class DiscordBotController extends AbstractController
 
             $token = $data['token'];
             $appId = $data['application_id'];
-            $url = "https://discord.com/api/v10/webhooks/{$appId}/{$token}/messages/@original";
-            $httpClient->request('PATCH', $url, [
-                'json' => ['content' => "Commande inconnue."]
-            ]);
-
-            /*$command = $data['data']['name'];
+            $command = $data['data']['name'];
             $discordId = $data['member']['user']['id'] ?? $data['user']['id'];
 
             $botManager = $this->container->get(DiscordBotManager::class);
@@ -57,7 +52,7 @@ class DiscordBotController extends AbstractController
                     'deviner' => $botManager->handleGuess($discordId, $data['data']['options'][0]['value']),
                     default => ['content' => "Commande inconnue."]
                 }
-            ]);*/
+            ]);
         }
 
         return new JsonResponse();
