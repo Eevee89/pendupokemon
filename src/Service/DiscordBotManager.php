@@ -15,6 +15,11 @@ class DiscordBotManager
         private EntityManagerInterface $em
     ) {}
 
+    public function greet(): array 
+    {
+        return ['content' => 'Hello World :sunglasses:'];
+    }
+
     /**
      * Logique pour la commande /pendu
      */
