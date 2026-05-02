@@ -13,7 +13,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
     name: 'app:discord:register-commands',
     description: 'Enregistre les slash commandes auprès de Discord',
 )]
-class RegisterDiscordCommandsCommand extends Command
+class RegisterCommand extends Command
 {
     public function __construct(
         private HttpClientInterface $client, 
