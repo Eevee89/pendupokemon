@@ -21,11 +21,11 @@ class PokemonRepository extends ServiceEntityRepository
         $conn = $this->getEntityManager()->getConnection();
 
         $sql = '
-        SELECT id FROM pokemon 
-        WHERE generation IN (:gens) 
-        ORDER BY RAND() 
-        LIMIT 1
-    ';
+            SELECT id FROM pokemon 
+            WHERE generation IN (:gens) 
+            ORDER BY RAND() 
+            LIMIT 1
+        ';
 
         $resultSet = $conn->executeQuery($sql, [
             'gens' => $gens
