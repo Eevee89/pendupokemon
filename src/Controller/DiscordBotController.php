@@ -31,15 +31,13 @@ class DiscordBotController extends AbstractController
             $command = $data['data']['name'];
             $discordId = $data['member']['user']['id'] ?? $data['user']['id'];
 
-            $responsePayload = match ($command) {
-                'pendu' => $botManager->handleStartGame($discordId),
-                'deviner' => $botManager->handleGuess($discordId, $data['data']['options'][0]['value']),
-                default => ['content' => "Commande inconnue."]
-            };
-
             return new JsonResponse([
                 'type' => 4,
-                'data' => $responsePayload
+                'data' => match ($command) {
+                    'pendu' => $botManager->handleStartGame($discordId),
+                    'deviner' => $botManager->handleGuess($discordId, $data['data']['options'][0]['value']),
+                    default => ['content' => "Commande inconnue."]
+                }
             ]);
         }
 
