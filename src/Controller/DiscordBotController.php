@@ -44,6 +44,11 @@ class DiscordBotController extends AbstractController
             $command = $data['data']['name'];
             $discordId = $data['member']['user']['id'] ?? $data['user']['id'];
 
+            set_time_limit(60);
+            ini_set('memory_limit', '256M');
+
+            $botManager = $this->container->get(DiscordBotManager::class);
+
             $url = "https://discord.com/api/v10/webhooks/{$appId}/{$token}/messages/@original";
 
             try {
