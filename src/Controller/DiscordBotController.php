@@ -8,12 +8,17 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class DiscordBotController extends AbstractController
 {
     #[Route('/discord/interactions', name: 'discord_interactions', methods: ['POST'])]
-    public function handle(Request $request, DiscordBotManager $botManager, string $discordPublicKey): JsonResponse
-    {
+    public function handle(
+        Request $request, 
+        DiscordBotManager $botManager,
+        HttpClientInterface $httpClient,
+        string $discordPublicKey
+    ): JsonResponse {
         $signature = $request->headers->get('X-Signature-Ed25519');
         $timestamp = $request->headers->get('X-Signature-Timestamp');
         $body = $request->getContent();
@@ -28,17 +33,20 @@ class DiscordBotController extends AbstractController
         }
 
         if ($data['type'] === 2) {
-            return new JsonResponse([
-                'type' => 4,
-                'data' => ['content' => "Test de rapidité"]
-            ]);
+            $response = new JsonResponse(['type' => 5]);
+            $response->send();
+            if (function_exists('fastcgi_finish_request')) {
+                fastcgi_finish_request();
+            }
 
+            $token = $data['token'];
+            $appId = $data['application_id'];
             $command = $data['data']['name'];
             $discordId = $data['member']['user']['id'] ?? $data['user']['id'];
 
-            return new JsonResponse([
-                'type' => 4,
-                'data' => match ($command) {
+            $url = "https://discord.com/api/v10/webhooks/{$appId}/{$token}/messages/@original";
+            $httpClient->request('PATCH', $url, [
+                'json' => match ($command) {
                     'pendu' => $botManager->handleStartGame($discordId),
                     'deviner' => $botManager->handleGuess($discordId, $data['data']['options'][0]['value']),
                     default => ['content' => "Commande inconnue."]
@@ -46,6 +54,6 @@ class DiscordBotController extends AbstractController
             ]);
         }
 
-        return new JsonResponse(['type' => 1]);
+        return new JsonResponse();
     }
 }
