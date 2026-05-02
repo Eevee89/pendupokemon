@@ -15,7 +15,6 @@ class DiscordBotController extends AbstractController
     #[Route('/discord/interactions', name: 'discord_interactions', methods: ['POST'])]
     public function handle(
         Request $request, 
-        DiscordBotManager $botManager,
         HttpClientInterface $httpClient,
         string $discordPublicKey
     ): JsonResponse {
@@ -43,6 +42,8 @@ class DiscordBotController extends AbstractController
             $appId = $data['application_id'];
             $command = $data['data']['name'];
             $discordId = $data['member']['user']['id'] ?? $data['user']['id'];
+
+            $botManager = $this->container->get(DiscordBotManager::class);
 
             $url = "https://discord.com/api/v10/webhooks/{$appId}/{$token}/messages/@original";
             $httpClient->request('PATCH', $url, [
