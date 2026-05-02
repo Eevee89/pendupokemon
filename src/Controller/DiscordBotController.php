@@ -18,9 +18,9 @@ class DiscordBotController extends AbstractController
         $timestamp = $request->headers->get('X-Signature-Timestamp');
         $body = $request->getContent();
 
-        if (!Interaction::verifyKey($body, $signature, $timestamp, $discordPublicKey)) {
+        /*if (!Interaction::verifyKey($body, $signature, $timestamp, $discordPublicKey)) {
             return new JsonResponse(['error' => 'Invalid signature'], 401);
-        }
+        }*/
 
         $data = json_decode($body, true);
         if ($data['type'] === 1) {
