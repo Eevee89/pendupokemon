@@ -28,6 +28,11 @@ class DiscordBotController extends AbstractController
         }
 
         if ($data['type'] === 2) {
+            return new JsonResponse([
+                'type' => 4,
+                'data' => ['content' => "Test de rapidité"]
+            ]);
+
             $command = $data['data']['name'];
             $discordId = $data['member']['user']['id'] ?? $data['user']['id'];
 
