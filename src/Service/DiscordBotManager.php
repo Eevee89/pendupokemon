@@ -77,7 +77,7 @@ class DiscordBotManager
 
             $newLetters = $currentLetters . $letter;
 
-            $stmt = $this->pdo->prepare("UPDATE game SET letters = ? WHERE discord_id = ?");
+            $stmt = $this->pdo->prepare("UPDATE hanging_game SET letters = ? WHERE discord_id = ?");
             $stmt->execute([$newLetters, $discordId]);
 
             $nomPokemon = strtoupper($game['pokemon_name']);
