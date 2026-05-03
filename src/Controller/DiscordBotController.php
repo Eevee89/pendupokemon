@@ -6,13 +6,21 @@ use App\Service\DiscordBotManager;
 use Discord\Interaction;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
+#[Route('/discord', name: 'discord_', methods: ['POST'])]
 class DiscordBotController extends AbstractController
 {
-    #[Route('/discord/interactions', name: 'discord_interactions', methods: ['POST'])]
+    #[Route('/bot', name: 'bot', methods: ['GET'])]
+    public function install(string $discordApplicationId): RedirectResponse 
+    {
+        return $this->redirect("https://discord.com/oauth2/authorize?client_id=$discordApplicationId");
+    }
+
+    #[Route('/interactions', name: 'interactions', methods: ['POST'])]
     public function handle(
         Request $request, 
         HttpClientInterface $httpClient,
