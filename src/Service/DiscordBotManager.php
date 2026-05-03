@@ -53,7 +53,7 @@ class DiscordBotManager
     public function handleGuess(string $discordId, string $letter): array
     {
         try {
-            $sql = "SELECT g.*, p.name as pokemon_name 
+            $sql = "SELECT g.*, p.name as pokemon_name, p.pokedex
                     FROM hanging_game g 
                     JOIN pokemon p ON g.pokemon_id = p.id 
                     WHERE g.discord_id = ?";
@@ -80,13 +80,14 @@ class DiscordBotManager
             $stmt = $this->pdo->prepare("UPDATE hanging_game SET letters = ? WHERE discord_id = ?");
             $stmt->execute([$newLetters, $discordId]);
 
-            $nomPokemon = strtoupper($game['pokemon_name']);
-            $mask = $this->generateMask($nomPokemon, $newLetters);
+            $name = strtoupper($game['pokemon_name']);
+            $mask = $this->generateMask($name, $newLetters);
 
             if (!str_contains($mask, '_')) {
                 $stmt = $this->pdo->prepare("DELETE FROM hanging_game WHERE discord_id = ?");
                 $stmt->execute([$discordId]);
-                return ['content' => "✨ GAGNÉ ! C'était bien **$nomPokemon** !"];
+                $url = "https://www.pokebip.com/pokedex-images/300/" . $game['pokedex'] . ".png?v=ev-blueberry";
+                return ['content' => "✨ GAGNÉ ! C'était bien **[$name]($url)**"];
             }
 
             return [
@@ -97,13 +98,13 @@ class DiscordBotManager
         }
     }
 
-    private function generateMask(string $nom, string $letters): string
+    private function generateMask(string $name, string $letters): string
     {
-        $nom = strtoupper($nom);
+        $name = strtoupper($name);
         $lettersArray = str_split(strtoupper($letters));
         $result = "";
 
-        foreach (str_split($nom) as $char) {
+        foreach (str_split($name) as $char) {
             if (in_array($char, $lettersArray) || $char === '-' || $char === ' ') {
                 $result .= $char . " ";
             } else {
