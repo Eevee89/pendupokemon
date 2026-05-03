@@ -14,7 +14,6 @@ services:
             $discordApplicationId: '%env(DISCORD_APPLICATION_ID)%'
             $discordPublicKey: '%env(DISCORD_PUBLIC_KEY)%'
             $discordBotToken: '%env(DISCORD_BOT_TOKEN)%'
-            $databaseUrl: '$env(DATABASE_URL)'
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
