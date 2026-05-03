@@ -2,110 +2,101 @@
 
 namespace App\Service;
 
-use App\Entity\Game;
-use App\Repository\GameRepository;
-use App\Repository\PokemonRepository;
-use Doctrine\ORM\EntityManagerInterface;
-
 class DiscordBotManager
 {
-    public function __construct(
-        private PokemonRepository $pokemonRepo,
-        private GameRepository $gameRepo,
-        private EntityManagerInterface $em
-    ) {}
+    private \PDO $pdo;
 
-    public function greet(): array 
+    public function __construct()
     {
-        return ['content' => 'Hello World :sunglasses:'];
+        $config = parse_url($_ENV['DATABASE_URL'] ?? '');
+        $user = isset($config['user']) ? rawurldecode($config['user']) : '';
+        $password = isset($config['pass']) ? rawurldecode($config['pass']) : '';
+        $host = $config['host'];
+        $port = $config['port'] ?? 3306;
+        $dbName = isset($config['path']) ? ltrim($config['path'], '/') : '';
+
+        $dsn = sprintf("mysql:host=%s;port=%s;dbname=%s;charset=utf8mb4", $host, $port, $dbName);
+
+        $this->pdo = new \PDO($dsn, $user, $password, [
+            \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
+            \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
+        ]);
     }
 
-    /**
-     * Logique pour la commande /pendu
-     */
     public function handleStartGame(string $discordId): array
     {
         try {
-            $existingGame = $this->gameRepo->findOneBy(['discordId' => $discordId]);
-            if ($existingGame) {
-                $this->em->remove($existingGame);
+            $stmt = $this->pdo->prepare("DELETE FROM game WHERE discord_id = ?");
+            $stmt->execute([$discordId]);
+
+            $stmt = $this->pdo->query("SELECT id, name, generation FROM pokemon ORDER BY RAND() LIMIT 1");
+            $pokemon = $stmt->fetch();
+
+            if (!$pokemon) {
+                return ['content' => "Erreur : aucun Pokémon trouvé dans la base."];
             }
 
-            $pokemon = $this->pokemonRepo->getRandomPokemon();
-
-            if (null === $pokemon) {
-                return [
-                    'content' => "Une erreur est survenue, réessaie plus tard."
-                ];
-            }
-
-            $game = new Game();
-            $game->setDiscordId($discordId);
-            $game->setPokemon($pokemon);
-            $game->setLetters("");
-
-            $this->em->persist($game);
-            $this->em->flush();
+            $stmt = $this->pdo->prepare("INSERT INTO game (discord_id, pokemon_id, letters) VALUES (?, ?, ?)");
+            $stmt->execute([$discordId, $pokemon['id'], ""]);
 
             $content = "🎮 **Nouveau Pendu lancé !**\n";
-            $content .= "Pokémon de la génération " . $pokemon->getGeneration() . ".\n` ";
-            $content .= $this->generateMask($pokemon->getName(), "") . " \n";
+            $content .= "Pokémon de la génération " . $pokemon['generation'] . ".\n` ";
+            $content .= $this->generateMask($pokemon['name'], "") . " \n";
             $content .= "`\nUtilise `/deviner [lettre]` !";
 
-            return [
-                'content' => $content
-            ];
+            return ['content' => $content];
         } catch (\Throwable $e) {
-            return [
-                'content' => $e->getMessage()
-            ];
+            return ['content' => "Erreur (Start): " . $e->getMessage()];
         }
     }
 
-    /**
-     * Logique pour la commande /deviner
-     */
     public function handleGuess(string $discordId, string $letter): array
     {
         try {
-            $game = $this->gameRepo->findOneBy(['discordId' => $discordId]);
+            $sql = "SELECT g.*, p.name as pokemon_name 
+                    FROM game g 
+                    JOIN pokemon p ON g.pokemon_id = p.id 
+                    WHERE g.discord_id = ?";
+
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([$discordId]);
+            $game = $stmt->fetch();
+
             if (!$game) {
                 return ['content' => "Tu n'as pas de partie en cours. Tape `/pendu` !"];
             }
 
-            $letter = strtoupper($letter);
-            $currentLetters = strtoupper($game->getLetters());
+            $letter = strtoupper(trim($letter));
+            if (strlen($letter) !== 1) return ['content' => "Envoie une seule lettre !"];
+
+            $currentLetters = strtoupper($game['letters'] ?? '');
 
             if (str_contains($currentLetters, $letter)) {
                 return ['content' => "Tu as déjà proposé la lettre **$letter** !"];
             }
 
             $newLetters = $currentLetters . $letter;
-            $game->setLetters($newLetters);
 
-            $nomPokemon = strtoupper($game->getPokemon()->getName());
+            $stmt = $this->pdo->prepare("UPDATE game SET letters = ? WHERE discord_id = ?");
+            $stmt->execute([$newLetters, $discordId]);
+
+            $nomPokemon = strtoupper($game['pokemon_name']);
             $mask = $this->generateMask($nomPokemon, $newLetters);
 
             if (!str_contains($mask, '_')) {
-                $this->em->remove($game);
-                $this->em->flush();
+                $stmt = $this->pdo->prepare("DELETE FROM game WHERE discord_id = ?");
+                $stmt->execute([$discordId]);
                 return ['content' => "✨ GAGNÉ ! C'était bien **$nomPokemon** !"];
             }
 
-            $this->em->flush();
             return [
                 'content' => "Lettre : **$letter**\nMot : ` $mask `\nLettres jouées : $newLetters"
             ];
         } catch (\Throwable $e) {
-            return [
-                'content' => $e->getMessage()
-            ];
+            return ['content' => "Erreur (Guess): " . $e->getMessage()];
         }
     }
 
-    /**
-     * Génère l'affichage avec underscores
-     */
     private function generateMask(string $nom, string $letters): string
     {
         $nom = strtoupper($nom);
@@ -119,7 +110,6 @@ class DiscordBotManager
                 $result .= "_ ";
             }
         }
-
         return trim($result);
     }
 }
