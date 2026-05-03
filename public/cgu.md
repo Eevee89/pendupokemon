@@ -47,4 +47,5 @@ L'éditeur ne peut être tenu responsable :
 Le service est fourni "en l'état". L'administrateur se réserve le droit de modifier, suspendre ou supprimer le bot ou le site à tout moment sans préavis, notamment en cas de demande de la part des ayants droit (Nintendo/Pokémon Co).
 
 #### 7. Contact
+
 Pour toute question ou demande de suppression de données, l'utilisateur peut contacter l'administrateur via le serveur Discord ou par le formulaire de contact du site.
