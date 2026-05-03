@@ -26,7 +26,7 @@ class DiscordBotManager
     public function handleStartGame(string $discordId): array
     {
         try {
-            $stmt = $this->pdo->prepare("DELETE FROM game WHERE discord_id = ?");
+            $stmt = $this->pdo->prepare("DELETE FROM hanging_game WHERE discord_id = ?");
             $stmt->execute([$discordId]);
 
             $stmt = $this->pdo->query("SELECT id, name, generation FROM pokemon ORDER BY RAND() LIMIT 1");
@@ -36,7 +36,7 @@ class DiscordBotManager
                 return ['content' => "Erreur : aucun Pokémon trouvé dans la base."];
             }
 
-            $stmt = $this->pdo->prepare("INSERT INTO game (discord_id, pokemon_id, letters) VALUES (?, ?, ?)");
+            $stmt = $this->pdo->prepare("INSERT INTO hanging_game (discord_id, pokemon_id, letters) VALUES (?, ?, ?)");
             $stmt->execute([$discordId, $pokemon['id'], ""]);
 
             $content = "🎮 **Nouveau Pendu lancé !**\n";
@@ -54,7 +54,7 @@ class DiscordBotManager
     {
         try {
             $sql = "SELECT g.*, p.name as pokemon_name 
-                    FROM game g 
+                    FROM hanging_game g 
                     JOIN pokemon p ON g.pokemon_id = p.id 
                     WHERE g.discord_id = ?";
 
@@ -84,7 +84,7 @@ class DiscordBotManager
             $mask = $this->generateMask($nomPokemon, $newLetters);
 
             if (!str_contains($mask, '_')) {
-                $stmt = $this->pdo->prepare("DELETE FROM game WHERE discord_id = ?");
+                $stmt = $this->pdo->prepare("DELETE FROM hanging_game WHERE discord_id = ?");
                 $stmt->execute([$discordId]);
                 return ['content' => "✨ GAGNÉ ! C'était bien **$nomPokemon** !"];
             }
