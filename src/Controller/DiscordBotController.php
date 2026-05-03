@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-#[Route('/discord', name: 'discord_', methods: ['POST'])]
+#[Route('/discord', name: 'discord_')]
 class DiscordBotController extends AbstractController
 {
     #[Route('/bot', name: 'bot', methods: ['GET'])]
